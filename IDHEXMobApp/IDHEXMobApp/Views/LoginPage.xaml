@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IDHEXMobApp.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
+    Title="LoginPage"
+    x:DataType="viewModels:LoginViewModel"
+    BackgroundColor="{StaticResource Secondary}">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry">
+                <Setter Property="TextColor" Value="Black" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <Grid RowDefinitions="300, *, auto, auto">
+            <Image HeightRequest="150" Source="logo_idhexmob.png" />
+
+            <Border
+                Grid.Row="1"
+                Padding="20,40,20,0"
+                BackgroundColor="White">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="30,30,0,0" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="20">
+                    <Entry
+                        Keyboard="Text"
+                        MaxLength="3"
+                        Placeholder="Sigla"
+                        Text="{Binding Sigla}"
+                        TextTransform="Uppercase" />
+
+                    <Entry
+                        Keyboard="Numeric"
+                        Placeholder="CPF"
+                        Text="{Binding Name}" />
+
+                    <Entry
+                        IsPassword="true"
+                        Keyboard="Text"
+                        Placeholder="Senha"
+                        Text="{Binding Password}" />
+                    <Grid ColumnDefinitions="*" >
+                        <BoxView HeightRequest="1" />
+                    </Grid>
+                    <Grid>
+                        <Button
+                            Command="{Binding LoginCommand}"
+                            FontAttributes="Bold"
+                            FontSize="Micro"
+                            Text="Entrar">
+                            <Button.Triggers>
+                                <DataTrigger
+                                    Binding="{Binding LoginCommand.IsRunning}"
+                                    TargetType="Button"
+                                    Value="True">
+                                    <Setter Property="Text" Value="" />
+                                </DataTrigger>
+                            </Button.Triggers>
+                        </Button>
+                        <ActivityIndicator
+                            HorizontalOptions="Center"
+                            IsRunning="{Binding LoginCommand.IsRunning}"
+                            IsVisible="{Binding LoginCommand.IsRunning}"
+                            VerticalOptions="Center"
+                            Color="{StaticResource Primary}" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
