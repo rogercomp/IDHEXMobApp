@@ -7,4 +7,5 @@ public class LoginResponse
     public string message { get; set; } = string.Empty;
     public bool baixaNF { get; set; }
     public int transportadoraId { get; set; }
-}
+    public int motoristaId { get; set;
+    }

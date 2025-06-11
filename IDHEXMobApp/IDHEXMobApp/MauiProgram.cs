@@ -21,10 +21,12 @@ public static class MauiProgram
 		builder.Services.AddTransient<MainViewModel>();
 
 		builder.Services.AddTransient<BlankViewModel>();
-
-		builder.Services.AddTransient<LoginPage>();
-
+		
         builder.Services.AddTransient<LoginViewModel>();
+
+        builder.Services.AddTransient<LoginPage>();
+
+		builder.Services.AddTransient<BlankPage>();
 
         builder.Services.AddScoped<ILoginRepository, LoginRepository>();
 

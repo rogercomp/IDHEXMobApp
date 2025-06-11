@@ -1,8 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-			 xmlns:vm="clr-namespace:IDHEXMobApp.ViewModels"
-			 x:Class="IDHEXMobApp.Views.BlankPage"
-			 x:DataType="vm:BlankViewModel">
-
-</ContentPage>
+<ContentPage
+    x:Class="IDHEXMobApp.Views.BlankPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:IDHEXMobApp.ViewModels"
+    Title="Tela Principal"
+    x:DataType="vm:BlankViewModel"
+    BackgroundColor="{StaticResource Primary}" />

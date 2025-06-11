@@ -49,12 +49,31 @@ public partial class LoginViewModel: BaseViewModel
 
             var result = await _loginRepository.LoginAsync(loginRequest);
 
-            if (result is null || String.IsNullOrEmpty(result.token))
+            if (String.IsNullOrEmpty(result.token))
             {
-                var toast = Toast.Make("Falha ao realizar login", ToastDuration.Short);
-                await toast.Show();
+                //var toast = Toast.Make(result.message, ToastDuration.Short);
+
+                //CancellationTokenSource cancellation = new CancellationTokenSource();
+
+                //await toast.Show(cancellation.Token);
+
+                await Shell.Current.DisplayAlert("Atenção", result.message, "OK");
+
                 return;
             }
+
+            Preferences.Set("token", result.token);
+
+            Preferences.Set("transportadoraId", result.transportadoraId);
+
+            Preferences.Set("motoristaId", result.motoristaId);
+
+            await Shell.Current.GoToAsync(nameof(BlankPage));
+
+        }
+        catch(Exception ex)
+        {
+
         }
         finally
         {
