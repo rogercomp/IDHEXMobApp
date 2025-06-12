@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IDHEXMobApp.Views.PrincipalPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:IDHEXMobApp.ViewModels"
+    Title="Tela Principal"
+    x:DataType="vm:PrincipalViewModel"
+    BackgroundColor="{StaticResource White}">
+
+    <Grid RowDefinitions="auto,*,auto">
+
+        <ActivityIndicator
+            Margin="0,20,0,0"
+            IsEnabled="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            Color="{StaticResource Primary}" />
+
+        <VerticalStackLayout Spacing="20">
+
+            <Button
+                Grid.Row="1"
+                Margin="10"
+                BackgroundColor="#BB2D3B"
+                Command="{Binding GoToPedidosCommand}"
+                FontAttributes="Bold"
+                Text="CARREGAR PEDIDOS"
+                TextColor="#FFFFFF"
+                VerticalOptions="Start" />
+
+            <Button
+                Grid.Row="1"
+                Margin="10"
+                BackgroundColor="#BB2D3B"
+                FontAttributes="Bold"
+                Text="LISTAR ROMANEIOS"
+                TextColor="#FFFFFF"
+                VerticalOptions="End" />
+
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

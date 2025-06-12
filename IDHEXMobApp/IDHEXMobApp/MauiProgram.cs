@@ -1,4 +1,5 @@
 ﻿using IDHEXMobApp.Repositories.Login;
+using IDHEXMobApp.Repositories.Pedido;
 
 namespace IDHEXMobApp;
 
@@ -18,19 +19,21 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
-		builder.Services.AddTransient<MainViewModel>();
-
-		builder.Services.AddTransient<BlankViewModel>();
-		
+        //ViewModels
+        builder.Services.AddTransient<PrincipalViewModel>();
+        builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<LoginViewModel>();
+        builder.Services.AddTransient<PedidosViewModel>();
 
+        //Views
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<LoginPage>();
+        builder.Services.AddTransient<PedidosPage>();
 
-		builder.Services.AddTransient<BlankPage>();
-
+        //Repositories
         builder.Services.AddScoped<ILoginRepository, LoginRepository>();
+		builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 
-        
 
         return builder.Build();
 	}

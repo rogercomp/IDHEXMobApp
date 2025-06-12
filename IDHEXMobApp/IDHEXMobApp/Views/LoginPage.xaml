@@ -12,6 +12,7 @@
         <ResourceDictionary>
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="PlaceholderColor" Value="Black" />                
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -31,7 +32,7 @@
                     <Entry
                         Keyboard="Text"
                         MaxLength="3"
-                        Placeholder="Sigla"
+                        Placeholder="SIGLA"                        
                         Text="{Binding Sigla}"
                         TextTransform="Uppercase" />
 
@@ -43,7 +44,7 @@
                     <Entry
                         IsPassword="true"
                         Keyboard="Text"
-                        Placeholder="Senha"
+                        Placeholder="SENHA"
                         Text="{Binding Password}" />
                     <Grid ColumnDefinitions="*" >
                         <BoxView HeightRequest="1" />
@@ -53,7 +54,7 @@
                             Command="{Binding LoginCommand}"
                             FontAttributes="Bold"
                             FontSize="Micro"
-                            Text="Entrar">
+                            Text="ENTRAR">
                             <Button.Triggers>
                                 <DataTrigger
                                     Binding="{Binding LoginCommand.IsRunning}"

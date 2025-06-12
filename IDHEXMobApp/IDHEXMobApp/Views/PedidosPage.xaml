@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="IDHEXMobApp.Views.PedidosPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
+    xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
+    Title="Romaneios"
+    x:DataType="viewModels:PedidosViewModel">
+
+    <ContentPage.Resources>        
+        <Style TargetType="BoxView">
+            <Setter Property="Color" Value="Gray" />
+            <Setter Property="HeightRequest" Value="1" />            
+        </Style>
+    </ContentPage.Resources>
+
+
+    <ScrollView Orientation="Vertical">
+        <Grid RowDefinitions="auto,*,auto">
+
+            <ActivityIndicator
+                Margin="0,20,0,0"
+                IsEnabled="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource Primary}" />
+
+
+            <CollectionView
+                Margin="20"
+                EmptyView="Nenhum item encontrado"
+                ItemsSource="{Binding Romaneios}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid
+                            x:DataType="model:RomaneioResponse"
+                            ColumnDefinitions="*"
+                            RowDefinitions="auto,auto,auto,auto">
+
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Margin="10,0"
+                                FontAttributes="Bold"
+                                Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Margin="10,0"
+                                FontAttributes="Bold"
+                                Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}" />
+
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Margin="10,0"
+                                FontAttributes="Bold"
+                                Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}" />
+                            <Button
+                                Grid.Row="4"
+                                Margin="10,25,10,20"
+                                BackgroundColor="#BB2D3B"
+                                Command="{Binding GoToNotasCommand}"
+                                FontAttributes="Bold"
+                                Text="Listar Notas"
+                                TextColor="#FFFFFF"
+                                VerticalOptions="End" />
+
+                            <BoxView />
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ScrollView>
+</ContentPage>
