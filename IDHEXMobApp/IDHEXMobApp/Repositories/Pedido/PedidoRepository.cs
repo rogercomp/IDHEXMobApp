@@ -3,7 +3,7 @@ using Flurl.Http;
 using IDHEXMobApp.Helpers;
 using IDHEXMobApp.Models.Response;
 
-namespace IDHEXMobApp.Repositories.Pedido
+namespace IDHEXMobApp.Repositories
 {
     public class PedidoRepository : IPedidoRepository
     {

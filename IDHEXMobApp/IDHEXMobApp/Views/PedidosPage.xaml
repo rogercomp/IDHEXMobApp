@@ -6,71 +6,68 @@
     xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Romaneios"
-    x:DataType="viewModels:PedidosViewModel">
+    x:DataType="viewModels:PedidosViewModel"
+    BackgroundColor="{StaticResource White}">
 
-    <ContentPage.Resources>        
+    <ContentPage.Resources>
         <Style TargetType="BoxView">
             <Setter Property="Color" Value="Gray" />
-            <Setter Property="HeightRequest" Value="1" />            
+            <Setter Property="HeightRequest" Value="1" />
         </Style>
     </ContentPage.Resources>
 
-
     <ScrollView Orientation="Vertical">
         <Grid RowDefinitions="auto,*,auto">
-
             <ActivityIndicator
                 Margin="0,20,0,0"
                 IsEnabled="{Binding IsBusy}"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
-                Color="{StaticResource Primary}" />
-
+                Color="{StaticResource MidnightBlue}" />
 
             <CollectionView
                 Margin="20"
                 EmptyView="Nenhum item encontrado"
+                IsGrouped="False"
                 ItemsSource="{Binding Romaneios}">
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid
-                            x:DataType="model:RomaneioResponse"
-                            ColumnDefinitions="*"
-                            RowDefinitions="auto,auto,auto,auto">
+                        <Border
+                            Margin="10,5"
+                            Padding="0"
+                            BackgroundColor="WhiteSmoke"
+                            Stroke="Gray"
+                            StrokeShape="RoundRectangle 5"
+                            StrokeThickness="1">
+                            <StackLayout
+                                Padding="4"
+                                x:DataType="model:RomaneioResponse"
+                                Orientation="Vertical">
 
-                            <Label
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                Margin="10,0"
-                                FontAttributes="Bold"
-                                Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}" />
-
-                            <Label
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                Margin="10,0"
-                                FontAttributes="Bold"
-                                Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}" />
-
-                            <Label
-                                Grid.Row="3"
-                                Grid.Column="0"
-                                Margin="10,0"
-                                FontAttributes="Bold"
-                                Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}" />
-                            <Button
-                                Grid.Row="4"
-                                Margin="10,25,10,20"
-                                BackgroundColor="#BB2D3B"
-                                Command="{Binding GoToNotasCommand}"
-                                FontAttributes="Bold"
-                                Text="Listar Notas"
-                                TextColor="#FFFFFF"
-                                VerticalOptions="End" />
-
-                            <BoxView />
-
-                        </Grid>
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}"
+                                    TextColor="Black" />
+                                <Label
+                                    FontAttributes="Bold"
+                                    Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}"
+                                    TextColor="Black" />
+                                <Button
+                                    Margin="10,25,10,20"
+                                    BackgroundColor="#BB2D3B"                                    
+                                    FontAttributes="Bold"
+                                    Text="Listar Notas"
+                                    TextColor="#FFFFFF"
+                                    VerticalOptions="End" 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:PedidosViewModel}}, Path=NotasCommand}" 
+                                    CommandParameter="{Binding .}" />
+                            </StackLayout>
+                        </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

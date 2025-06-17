@@ -2,7 +2,7 @@
 using CommunityToolkit.Maui.Core;
 using IDHEXMobApp.Contratos;
 using IDHEXMobApp.Models.Request;
-using IDHEXMobApp.Repositories.Login;
+using IDHEXMobApp.Repositories;
 using System.Text;
 
 namespace IDHEXMobApp.ViewModels;

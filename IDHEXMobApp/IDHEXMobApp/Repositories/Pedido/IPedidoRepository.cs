@@ -1,6 +1,6 @@
 ﻿using IDHEXMobApp.Models.Response;
 
-namespace IDHEXMobApp.Repositories.Pedido
+namespace IDHEXMobApp.Repositories
 {
     public interface IPedidoRepository
     {

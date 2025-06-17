@@ -1,19 +1,20 @@
 ﻿using IDHEXMobApp.Models.Response;
-using IDHEXMobApp.Repositories.Pedido;
+using IDHEXMobApp.Repositories;
+using System.Windows.Input;
 
 
 namespace IDHEXMobApp.ViewModels
 {
     public partial class PedidosViewModel : BaseViewModel
-    {       
-
-        public ObservableCollection<RomaneioResponse> Romaneios { get; set; }
-            = new ObservableCollection<RomaneioResponse>();
+    {
         private readonly IPedidoRepository _pedidoRepository;
+        public ObservableCollection<RomaneioResponse> Romaneios { get; set; } = new ObservableCollection<RomaneioResponse>();
+        public ICommand NotasCommand { get; }
 
         public PedidosViewModel(IPedidoRepository pedidoRepository)
-        {            
-            _pedidoRepository = pedidoRepository;            
+        {
+            _pedidoRepository = pedidoRepository;
+            NotasCommand = new Command<RomaneioResponse>(async (romaneio) => await OnNotasAsync(romaneio));
         }
 
         internal async Task InitiAsync()
@@ -22,7 +23,7 @@ namespace IDHEXMobApp.ViewModels
 
             var pedidos = await _pedidoRepository.GetPedidosAsync();
 
-            var romaneios = (from p in pedidos
+            var resultado = (from p in pedidos
                              group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
                              select new RomaneioResponse
                              {
@@ -33,9 +34,15 @@ namespace IDHEXMobApp.ViewModels
 
             Romaneios.Clear();
 
-            foreach (RomaneioResponse romaneio in romaneios)
+            foreach (var item in resultado)
             {
-                Romaneios.Add(romaneio);
+                Romaneios.Add(new RomaneioResponse
+                {
+                    NumRomaneio = item.NumRomaneio!,
+                    TotalNotas = item.TotalNotas,
+                    DataPrevisaoSaida = item.DataPrevisaoSaida
+                });
+
             }
 
             IsBusy = false;
@@ -43,6 +50,11 @@ namespace IDHEXMobApp.ViewModels
 
         [RelayCommand]
         public async Task GoToNotasCommand()
-            => await Shell.Current.GoToAsync(nameof(NotasPage));       
+            => await Shell.Current.GoToAsync(nameof(NotasPage));
+
+        private async Task OnNotasAsync(RomaneioResponse romaneio)
+        {
+            await Shell.Current.DisplayAlert("Atenção", romaneio.NumRomaneio, "OK");
+        }
     }
 }

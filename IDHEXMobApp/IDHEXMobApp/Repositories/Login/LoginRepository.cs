@@ -5,7 +5,7 @@ using IDHEXMobApp.Models.Request;
 using IDHEXMobApp.Models.Response;
 
 
-namespace IDHEXMobApp.Repositories.Login;
+namespace IDHEXMobApp.Repositories;
 
 public class LoginRepository: ILoginRepository
 {
