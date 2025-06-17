@@ -21,4 +21,13 @@
                 Shell.NavBarIsVisible="True" />
         </Tab>
     </FlyoutItem>
+    <FlyoutItem Title="Notas">
+        <Tab>
+            <ShellContent
+             Title="Notas"
+             ContentTemplate="{DataTemplate views:NotasPage}"
+             Route="NotasPage"
+             Shell.NavBarIsVisible="True" />
+        </Tab>
+    </FlyoutItem>
 </Shell>

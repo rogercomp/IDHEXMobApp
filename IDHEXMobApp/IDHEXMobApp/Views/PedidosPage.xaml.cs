@@ -1,5 +1,3 @@
-using IDHEXMobApp.Models.Response;
-
 namespace IDHEXMobApp.Views;
 
 public partial class PedidosPage : ContentPage

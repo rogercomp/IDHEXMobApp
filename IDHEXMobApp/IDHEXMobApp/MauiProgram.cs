@@ -48,7 +48,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<MainPage>();
         mauiAppBuilder.Services.AddTransient<LoginPage>();
         mauiAppBuilder.Services.AddTransient<PedidosPage>();
-        
+        mauiAppBuilder.Services.AddTransient<NotasPage>();
+
         return mauiAppBuilder;
     }
 
@@ -58,7 +59,8 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<PrincipalViewModel>();
         mauiAppBuilder.Services.AddTransient<MainViewModel>();
         mauiAppBuilder.Services.AddTransient<LoginViewModel>();
-        mauiAppBuilder.Services.AddTransient<PedidosViewModel>();        
+        mauiAppBuilder.Services.AddTransient<PedidosViewModel>();
+        mauiAppBuilder.Services.AddTransient<NotaViewModel>();
 
         return mauiAppBuilder;
     }

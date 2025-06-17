@@ -1,6 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Maui.Core;
-using IDHEXMobApp.Contratos;
+﻿using IDHEXMobApp.Contratos;
 using IDHEXMobApp.Models.Request;
 using IDHEXMobApp.Repositories;
 using System.Text;

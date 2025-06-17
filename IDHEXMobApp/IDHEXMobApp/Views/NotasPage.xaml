@@ -3,25 +3,84 @@
     x:Class="IDHEXMobApp.Views.NotasPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    Title="NotasPage">
+    xmlns:converters="clr-namespace:IDHEXMobApp.Helpers.Converters"
+    xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
+    xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
+    Title="Notas"
+    x:DataType="viewModels:NotaViewModel"
+    NavigationPage.HasNavigationBar="False">
 
-    <Grid RowDefinitions="auto,*,auto">
+    <ContentPage.Resources>
+        <ResourceDictionary Source="/Resources/Styles/Colors.xaml" />
+        <ResourceDictionary>
+            <converters:ItemNameConverter x:Key="ItemNameConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-        <ActivityIndicator
-            Margin="0,20,0,0"
-            IsEnabled="{Binding IsBusy}"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            Color="{StaticResource Primary}" />
+    <ScrollView Orientation="Vertical">
+        <Grid RowDefinitions="auto,*,auto">
 
-        <Button
-            Grid.Row="1"
-            Margin="10"
-            BackgroundColor="Green"
-            FontAttributes="Bold"
-            Text="Registrar Entrega"
-            VerticalOptions="End" />
+            <ActivityIndicator
+                Margin="0,20,0,0"
+                IsEnabled="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                Color="{StaticResource Primary}" />
 
-    </Grid>
+            <CollectionView
+                Margin="20"
+                EmptyView="Nenhum item encontrado"
+                ItemsSource="{Binding Pedidos}">
 
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border
+                            Margin="10,5"
+                            Padding="0"
+                            BackgroundColor="WhiteSmoke"
+                            Stroke="Gray"
+                            StrokeShape="RoundRectangle 5"
+                            StrokeThickness="1">
+                            <StackLayout
+                                Padding="4"
+                                x:DataType="model:PedidoResponse"
+                                Orientation="Vertical">
+                                <Label
+                                    Grid.Row="1"
+                                    Grid.Column="1"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Nome}" />
+                                <Label Grid.Column="2" Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}" />
+                                <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" />
+                                <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" />
+                                <Label Grid.ColumnSpan="2" Text="{Binding Endereco, StringFormat='Endereço: {0}'}" />
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}" />
+                                <Label
+                                    Grid.Column="2"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding VlrNotaFiscal, StringFormat='Valor: R$ {0:F2}'}"
+                                    TextColor="Red" />
+                                <Button
+                                    Grid.RowSpan="2"
+                                    Grid.Column="1"
+                                    Padding="0"
+                                    CornerRadius="27"
+                                    FontSize="{OnPlatform Default=48,
+                                                          Android=36}"
+                                    HeightRequest="54"
+                                    HorizontalOptions="End"
+                                    Text="+"
+                                    WidthRequest="54" />
+                            </StackLayout>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ScrollView>
 </ContentPage>

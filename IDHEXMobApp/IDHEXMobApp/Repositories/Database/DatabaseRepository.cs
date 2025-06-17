@@ -1,4 +1,4 @@
-﻿using IDHEXMobApp.Models.Pedido;
+﻿using IDHEXMobApp.Models.Response;
 using LiteDB;
 using System.Transactions;
 
@@ -13,28 +13,33 @@ namespace IDHEXMobApp.Repositories.Database
             _database = database;
         }
 
-        public void Add(Pedido pedido)
+        public void Add(PedidoResponse pedido)
         {
-            var col = _database.GetCollection<Pedido>(collectionName);
+            var col = _database.GetCollection<PedidoResponse>(collectionName);
             col.Insert(pedido);
             col.EnsureIndex(a => a.NumRomaneio);
         }
 
-        public void Delete(Pedido pedido)
+        public void Delete(PedidoResponse pedido)
         {
-            throw new NotImplementedException();
+            //var col = _database.GetCollection<PedidoResponse>(collectionName);
+            _database.DropCollection("pedidos");
+            //col.DeleteAll();
         }
 
-        public List<Pedido> GetAll()
+        public async Task<IEnumerable<PedidoResponse>> GetAll()
         {
-            return _database
-             .GetCollection<Pedido>(collectionName)
-             .Query()
-             .OrderByDescending(a => a.NumRomaneio)
-             .ToList();
+            return await Task.Run(() =>
+            {
+                return _database
+                    .GetCollection<PedidoResponse>(collectionName)
+                    .Query()
+                    .OrderByDescending(a => a.NumRomaneio)
+                    .ToList();
+            });
         }
 
-        public void Update(Pedido pedido)
+        public void Update(PedidoResponse pedido)
         {
             throw new NotImplementedException();
         }

@@ -4,9 +4,9 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
-    xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
+    xmlns:viewModel="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Romaneios"
-    x:DataType="viewModels:PedidosViewModel"
+    x:DataType="viewModel:PedidosViewModel"
     BackgroundColor="{StaticResource White}">
 
     <ContentPage.Resources>
@@ -59,18 +59,45 @@
                                     TextColor="Black" />
                                 <Button
                                     Margin="10,25,10,20"
-                                    BackgroundColor="#BB2D3B"                                    
+                                    BackgroundColor="#BB2D3B"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel }}, Path=NotasCommand}"
+                                    CommandParameter="{Binding .}"
                                     FontAttributes="Bold"
                                     Text="Listar Notas"
                                     TextColor="#FFFFFF"
-                                    VerticalOptions="End" 
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:PedidosViewModel}}, Path=NotasCommand}" 
-                                    CommandParameter="{Binding .}" />
+                                    VerticalOptions="End" />
                             </StackLayout>
                         </Border>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+            <Border
+                Grid.Row="1"
+                Margin="10"
+                Padding="10,15"
+                BackgroundColor="LightGray"
+                StrokeShape="RoundRectangle 30"
+                StrokeThickness="1"
+                VerticalOptions="End">
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                    <Label
+                        Grid.Row="3"
+                        Margin="10,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Text="{Binding Sincronizados, Mode=TwoWay}"
+                        TextColor="Black" />
+
+                    <Label
+                        Grid.Row="3"
+                        Grid.Column="1"
+                        Margin="10,0"
+                        FontAttributes="Bold"
+                        FontSize="12"
+                        Text="{Binding Baixados, Mode=TwoWay}"
+                        TextColor="Black" />
+                </Grid>
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

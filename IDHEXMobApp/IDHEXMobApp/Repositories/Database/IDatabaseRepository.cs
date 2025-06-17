@@ -1,12 +1,12 @@
-﻿using IDHEXMobApp.Models.Pedido;
+﻿using IDHEXMobApp.Models.Response;
 
 namespace IDHEXMobApp.Repositories.Database
 {
     public interface IDatabaseRepository
     {
-        void Add(Pedido pedido);
-        void Delete(Pedido pedido);
-        List<Pedido> GetAll();
-        void Update(Pedido pedido);
+        void Add(PedidoResponse pedido);
+        void Delete(PedidoResponse pedido);
+        Task<IEnumerable<PedidoResponse>> GetAll();
+        void Update(PedidoResponse pedido);
     }
 }

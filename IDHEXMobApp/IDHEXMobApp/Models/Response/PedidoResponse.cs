@@ -17,5 +17,12 @@
         public string? ImgCanhoto { get; set; }
         public DateTime? DtImgCanhoto { get; set; }
         public string? CodOcorrencia { get; set; }        
+
+        public string Endereco
+        { get
+            {
+                return Logradouro + ", " + Bairro + " " + Cidade;
+            }
+        }
     }
 }
