@@ -23,7 +23,7 @@
                 Grid.Row="1"
                 Margin="10"
                 BackgroundColor="#BB2D3B"
-                Command="{Binding GoToPedidosCommand}"
+                Command="{Binding GoToPedidosCommand} "
                 FontAttributes="Bold"
                 Text="CARREGAR PEDIDOS"
                 TextColor="#FFFFFF"
