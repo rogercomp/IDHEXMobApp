@@ -20,5 +20,16 @@ namespace IDHEXMobApp.Repositories
                 .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
                 .GetJsonAsync<IEnumerable<PedidoResponse>>();
         }
+        public async Task<bool> AtualizaSincronismoAsync(long pedidoId, long empresaId)
+        {
+            var data = new Object();
+
+            var response = await Constantes.BaseUrl
+               .AppendPathSegment($"/IntegraMAUI/{pedidoId}/{empresaId}")
+               .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
+               .PutJsonAsync(data);
+
+            return response.ResponseMessage.IsSuccessStatusCode;
+        }
     }
 }

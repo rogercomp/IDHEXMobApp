@@ -6,7 +6,7 @@ namespace IDHEXMobApp.Repositories.Database
     {
         void Add(PedidoResponse pedido);
         void Delete(PedidoResponse pedido);
-        Task<IEnumerable<PedidoResponse>> GetAll();
+        IEnumerable<PedidoResponse> GetAll();
         void Update(PedidoResponse pedido);
     }
 }

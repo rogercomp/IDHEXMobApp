@@ -18,7 +18,7 @@ namespace IDHEXMobApp.ViewModels
 
             //_databaseRepository.Delete(new PedidoResponse());
 
-            var pedidos = await _databaseRepository.GetAll();            
+            var pedidos = _databaseRepository.GetAll();            
 
             foreach (var pedido in pedidos)
             {

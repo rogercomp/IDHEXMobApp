@@ -1,6 +1,5 @@
 ﻿using IDHEXMobApp.Models.Response;
 using LiteDB;
-using System.Transactions;
 
 namespace IDHEXMobApp.Repositories.Database
 {
@@ -16,8 +15,8 @@ namespace IDHEXMobApp.Repositories.Database
         public void Add(PedidoResponse pedido)
         {
             var col = _database.GetCollection<PedidoResponse>(collectionName);
+            
             col.Insert(pedido);
-            col.EnsureIndex(a => a.NumRomaneio);
         }
 
         public void Delete(PedidoResponse pedido)
@@ -27,16 +26,13 @@ namespace IDHEXMobApp.Repositories.Database
             //col.DeleteAll();
         }
 
-        public async Task<IEnumerable<PedidoResponse>> GetAll()
-        {
-            return await Task.Run(() =>
-            {
+        public IEnumerable<PedidoResponse> GetAll()
+        {   
                 return _database
                     .GetCollection<PedidoResponse>(collectionName)
                     .Query()
                     .OrderByDescending(a => a.NumRomaneio)
-                    .ToList();
-            });
+                    .ToList();            
         }
 
         public void Update(PedidoResponse pedido)

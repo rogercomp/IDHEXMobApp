@@ -27,16 +27,7 @@
                 FontAttributes="Bold"
                 Text="CARREGAR PEDIDOS"
                 TextColor="#FFFFFF"
-                VerticalOptions="Start" />
-
-            <Button
-                Grid.Row="1"
-                Margin="10"
-                BackgroundColor="#BB2D3B"
-                FontAttributes="Bold"
-                Text="LISTAR ROMANEIOS"
-                TextColor="#FFFFFF"                
-                VerticalOptions="End" />
+                VerticalOptions="Start" />            
 
         </VerticalStackLayout>       
     </Grid>
