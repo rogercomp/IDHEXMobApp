@@ -51,7 +51,9 @@
                                     Grid.Column="1"
                                     FontAttributes="Bold"
                                     HorizontalOptions="Start"
-                                    Text="{Binding Nome}" />
+                                    Text="{Binding Nome}" 
+                                    BackgroundColor="LightGray"
+                                    />
                                 <Label Grid.Column="2" Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}" />
                                 <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" />
                                 <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" />
@@ -75,7 +77,9 @@
                                     HeightRequest="54"
                                     HorizontalOptions="End"
                                     Text="+"
-                                    WidthRequest="54" />
+                                    WidthRequest="54" 
+                                    BackgroundColor="Blue"
+                                    />
                             </StackLayout>
                         </Border>
                     </DataTemplate>
