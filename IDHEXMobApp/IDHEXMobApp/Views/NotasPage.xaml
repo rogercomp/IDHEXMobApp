@@ -34,7 +34,6 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-
                         <Border
                             Margin="10,5"
                             Padding="0"

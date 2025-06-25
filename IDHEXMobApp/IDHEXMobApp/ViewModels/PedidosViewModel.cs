@@ -1,26 +1,27 @@
 ﻿using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
-using System.Windows.Input;
-
 
 namespace IDHEXMobApp.ViewModels
 {
+    
     public partial class PedidosViewModel : BaseViewModel
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IDatabaseRepository _databaseRepository;
+        
         [ObservableProperty]
         private string baixados = "Entregues: 0";
         [ObservableProperty]
         private string sincronizados = "Sinc:";
-        public ObservableCollection<RomaneioResponse> Romaneios { get; set; } = new ObservableCollection<RomaneioResponse>();
-        public ICommand NotasCommand { get; }
+        [ObservableProperty]
+        private string _numRomaneio = string.Empty;
+        public ObservableCollection<RomaneioResponse> Romaneios { get; set; } = new ObservableCollection<RomaneioResponse>();             
+
         public PedidosViewModel(IPedidoRepository pedidoRepository, IDatabaseRepository databaseRepository)
         {
             _pedidoRepository = pedidoRepository;
-            _databaseRepository = databaseRepository;
-            NotasCommand = new Command<RomaneioResponse>(async (romaneio) => await OnNotasAsync(romaneio));
+            _databaseRepository = databaseRepository;            
         }
 
         internal async Task InitiAsync()
@@ -116,60 +117,55 @@ namespace IDHEXMobApp.ViewModels
         }
 
         [RelayCommand]
-        public async Task GoToNotasCommand()
+        public async Task GoToNotas()
             => await Shell.Current.GoToAsync(nameof(NotasPage));
 
-        private async Task OnNotasAsync(RomaneioResponse romaneio)
+        [RelayCommand]
+        public async Task GoToEdit(RomaneioResponse romaneio)
         {
-            await Shell.Current.DisplayAlert("Atenção", romaneio.NumRomaneio, "OK");
-        }
+            if (romaneio is null)
+                return;
 
+            var navigationParams = new Dictionary<string, object>
+            {
+                {"Romaneio", romaneio }
+            };
+
+            await Shell.Current.GoToAsync(nameof(NotasPage), navigationParams);
+        }
 
         public async Task CarregaRomaneiosAsync()
         {
             IsBusy = true;
 
-            var itens = _databaseRepository.GetAll();
+            //_databaseRepository.Delete(new PedidoResponse());
+
+              var itens = _databaseRepository.GetAll();
 
 
-            var resultado = (from p in itens
-                             group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
-                             select new RomaneioResponse
-                             {
-                                 NumRomaneio = g.Key.NumRomaneio,
-                                 TotalNotas = g.Count(),
-                                 DataPrevisaoSaida = g.Key.DataPrevisaoSaida
-                             }).ToList();
+              var resultado = (from p in itens
+                               group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
+                               select new RomaneioResponse
+                               {
+                                   NumRomaneio = g.Key.NumRomaneio,
+                                   TotalNotas = g.Count(),
+                                   DataPrevisaoSaida = g.Key.DataPrevisaoSaida
+                               }).ToList();
 
-            Romaneios.Clear();
+              Romaneios.Clear();
 
-            foreach (var item in resultado)
-            {
-                Romaneios.Add(new RomaneioResponse
-                {
-                    NumRomaneio = item.NumRomaneio!,
-                    TotalNotas = item.TotalNotas,
-                    DataPrevisaoSaida = item.DataPrevisaoSaida
-                });
-            }
+              foreach (var item in resultado)
+              {
+                  Romaneios.Add(new RomaneioResponse
+                  {
+                      NumRomaneio = item.NumRomaneio!,
+                      TotalNotas = item.TotalNotas,
+                      DataPrevisaoSaida = item.DataPrevisaoSaida
+                  });
+              }           
+
 
             await Task.CompletedTask;
-        }
-
-
-        //[RelayCommand]
-        //public async Task Notas(RomaneioResponse romaneio)
-        //{
-        //    if (romaneio is null)
-        //        return;
-
-        //    //var navigationParams = new Dictionary<string, object>
-        //    //{
-        //    //    {"Pedido", romaneio }
-        //    //};
-
-        //    return;
-        //    //await Shell.Current.DisplayAlert("Atenção", romaneio.NumRomaneio, "OK");
-        //}
+        }       
     }
 }

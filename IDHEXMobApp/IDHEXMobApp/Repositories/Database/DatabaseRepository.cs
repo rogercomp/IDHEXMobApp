@@ -15,7 +15,7 @@ namespace IDHEXMobApp.Repositories.Database
         public void Add(PedidoResponse pedido)
         {
             var col = _database.GetCollection<PedidoResponse>(collectionName);
-            
+
             col.Insert(pedido);
         }
 
@@ -27,12 +27,22 @@ namespace IDHEXMobApp.Repositories.Database
         }
 
         public IEnumerable<PedidoResponse> GetAll()
-        {   
-                return _database
-                    .GetCollection<PedidoResponse>(collectionName)
-                    .Query()
-                    .OrderByDescending(a => a.NumRomaneio)
-                    .ToList();            
+        {
+            return _database
+                .GetCollection<PedidoResponse>(collectionName)
+                .Query()
+                .OrderByDescending(a => a.NumRomaneio)
+                .ToList();
+        }
+
+        public IEnumerable<PedidoResponse> GetPedidosByNumRomaneioAsync(string numRomaneio)
+        {
+            return _database
+                .GetCollection<PedidoResponse>(collectionName)
+                .Query()
+                .Where(p => p.NumRomaneio == numRomaneio)
+                .OrderByDescending(a => a.NumNotaFiscal)
+                .ToList();
         }
 
         public void Update(PedidoResponse pedido)

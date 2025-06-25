@@ -33,6 +33,35 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
+                        <!--<Grid
+                            x:DataType="model:RomaneioResponse"
+                            ColumnDefinitions="*,*"
+                            RowDefinitions="auto,auto,auto,auto">
+
+                            <Label FontAttributes="Bold" Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}" />
+
+                            <Label
+                                Grid.Column="1"
+                                FontAttributes="Bold"
+                                HorizontalOptions="End"
+                                Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}" />
+
+                            <Label
+                                Grid.Row="2"
+                                Grid.ColumnSpan="2"
+                                FontSize="Body"
+                                Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}" />
+
+
+                            <Button
+                                Grid.Row="3"
+                                Grid.ColumnSpan="2"
+                                Margin="1,10,1,1"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel }}, Path=GoToEditCommand}"
+                                CommandParameter="{Binding .}"
+                                Text="Test" />
+
+                        </Grid>-->
                         <Border
                             Margin="10,5"
                             Padding="0"
@@ -57,15 +86,18 @@
                                     FontAttributes="Bold"
                                     Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}"
                                     TextColor="Black" />
+
                                 <Button
                                     Margin="10,25,10,20"
                                     BackgroundColor="#BB2D3B"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel}}, Path=NotasCommand}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:BaseViewModel}}, Path=GoToEditCommand, x:DataType=viewModel:BaseViewModel }"
                                     CommandParameter="{Binding .}"
                                     FontAttributes="Bold"
                                     Text="Listar Notas"
                                     TextColor="#FFFFFF"
                                     VerticalOptions="End" />
+
+
                             </StackLayout>
                         </Border>
                     </DataTemplate>

@@ -25,9 +25,21 @@
                 BackgroundColor="#BB2D3B"
                 Command="{Binding GoToPedidosCommand}"
                 FontAttributes="Bold"
-                Text="CARREGAR PEDIDOS"
+                Text="CARREGAR PEDIDOS / ROMANEIOS"
                 TextColor="#FFFFFF"
                 VerticalOptions="Start" />
+
+            <!--<Button
+                Grid.Row="1"
+                Margin="10"
+                BackgroundColor="#BB2D3B"
+                Command="{Binding GoToNotasCommand}"
+                FontAttributes="Bold"
+                Text="ROMANEIOS"
+                TextColor="#FFFFFF"
+                VerticalOptions="Start">              
+
+            </Button>-->
 
         </VerticalStackLayout>
     </Grid>

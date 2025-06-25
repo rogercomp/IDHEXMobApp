@@ -1,3 +1,6 @@
+using IDHEXMobApp.Models.Response;
+using System.Transactions;
+
 namespace IDHEXMobApp.Views;
 
 public partial class PedidosPage : ContentPage
@@ -13,7 +16,5 @@ public partial class PedidosPage : ContentPage
     {
         base.OnAppearing();
         await _viewModel.InitiAsync();
-    }
-
-   
+    } 
 }
