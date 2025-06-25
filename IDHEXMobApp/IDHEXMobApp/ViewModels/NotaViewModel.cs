@@ -61,5 +61,9 @@ namespace IDHEXMobApp.ViewModels
 
             await Task.CompletedTask;
         }
+
+        [RelayCommand]
+        public async Task CameraAsync()
+         => await Shell.Current.GoToAsync(nameof(CameraPage));
     }
 }

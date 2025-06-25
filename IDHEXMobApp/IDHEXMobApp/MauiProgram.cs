@@ -10,10 +10,11 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
-		builder
-			.UseMauiApp<App>()
-			.UseMauiCommunityToolkit()
-			.ConfigureFonts(fonts =>
+        builder
+            .UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
+            .UseMauiCommunityToolkitCamera()
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -49,6 +50,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<LoginPage>();
         mauiAppBuilder.Services.AddTransient<PedidosPage>();
         mauiAppBuilder.Services.AddTransient<NotasPage>();
+        mauiAppBuilder.Services.AddTransient<CameraPage>();
 
         return mauiAppBuilder;
     }
@@ -61,6 +63,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<LoginViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosViewModel>();
         mauiAppBuilder.Services.AddTransient<NotaViewModel>();
+        mauiAppBuilder.Services.AddTransient<CameraViewModel>();
 
         return mauiAppBuilder;
     }

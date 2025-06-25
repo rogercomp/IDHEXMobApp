@@ -164,7 +164,7 @@ namespace IDHEXMobApp.ViewModels
                   });
               }           
 
-
+            
             await Task.CompletedTask;
         }       
     }

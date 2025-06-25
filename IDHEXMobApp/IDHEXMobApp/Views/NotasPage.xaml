@@ -46,18 +46,21 @@
                                 x:DataType="model:PedidoResponse"
                                 Orientation="Vertical">
                                 <Label
+                                    TextColor="Black"
                                     Grid.Row="1"
-                                    Grid.Column="1"
-                                    FontAttributes="Bold"
-                                    HorizontalOptions="Start"
-                                    Text="{Binding Nome}" 
+                                    Grid.ColumnSpan="3"
                                     BackgroundColor="LightGray"
-                                    />
-                                <Label Grid.Column="2" Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}" />
-                                <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" />
-                                <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" />
-                                <Label Grid.ColumnSpan="2" Text="{Binding Endereco, StringFormat='Endereço: {0}'}" />
+                                    FontAttributes="Bold"
+                                    FontSize="Medium"
+                                    HorizontalTextAlignment="Center"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Nome}" />
+                                <Label TextColor="Black" Grid.Column="2" Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}" />
+                                <Label TextColor="Black" Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" />
+                                <Label TextColor="Black" Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" />
+                                <Label TextColor="Black" Grid.ColumnSpan="2" Text="{Binding Endereco, StringFormat='Endereço: {0}'}" />
                                 <Label
+                                    TextColor="Black"
                                     Grid.Column="1"
                                     HorizontalOptions="Start"
                                     Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}" />
@@ -70,15 +73,17 @@
                                     Grid.RowSpan="2"
                                     Grid.Column="1"
                                     Padding="0"
+                                    BackgroundColor="Red"                                    
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotaViewModel}}, Path=CameraCommand, x:DataType=viewModels:NotaViewModel}"
+                                    CommandParameter="{Binding .}"
                                     CornerRadius="27"
                                     FontSize="{OnPlatform Default=48,
                                                           Android=36}"
                                     HeightRequest="54"
                                     HorizontalOptions="End"
+                                    TextColor="WhiteSmoke"
                                     Text="+"
-                                    WidthRequest="54" 
-                                    BackgroundColor="Blue"
-                                    />
+                                    WidthRequest="54" />
                             </StackLayout>
                         </Border>
                     </DataTemplate>

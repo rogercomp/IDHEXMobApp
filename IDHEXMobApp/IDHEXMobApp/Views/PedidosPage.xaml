@@ -32,36 +32,7 @@
                 ItemsSource="{Binding Romaneios}">
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <!--<Grid
-                            x:DataType="model:RomaneioResponse"
-                            ColumnDefinitions="*,*"
-                            RowDefinitions="auto,auto,auto,auto">
-
-                            <Label FontAttributes="Bold" Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}" />
-
-                            <Label
-                                Grid.Column="1"
-                                FontAttributes="Bold"
-                                HorizontalOptions="End"
-                                Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}" />
-
-                            <Label
-                                Grid.Row="2"
-                                Grid.ColumnSpan="2"
-                                FontSize="Body"
-                                Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}" />
-
-
-                            <Button
-                                Grid.Row="3"
-                                Grid.ColumnSpan="2"
-                                Margin="1,10,1,1"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel }}, Path=GoToEditCommand}"
-                                CommandParameter="{Binding .}"
-                                Text="Test" />
-
-                        </Grid>-->
+                    <DataTemplate>                      
                         <Border
                             Margin="10,5"
                             Padding="0"
@@ -75,15 +46,14 @@
                                 Orientation="Vertical">
 
                                 <Label
+                                    BackgroundColor="LightGray"
                                     FontAttributes="Bold"
                                     Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}"
                                     TextColor="Black" />
                                 <Label
                                     FontAttributes="Bold"
                                     Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}"
-                                    TextColor="Black" 
-                                    BackgroundColor="LightGray"
-                                    />
+                                    TextColor="Black" />
                                 <Label
                                     FontAttributes="Bold"
                                     Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}"
@@ -92,7 +62,7 @@
                                 <Button
                                     Margin="10,25,10,20"
                                     BackgroundColor="#BB2D3B"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:BaseViewModel}}, Path=GoToEditCommand, x:DataType=viewModel:BaseViewModel }"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel}}, Path=GoToEditCommand, x:DataType=viewModel:PedidosViewModel}"
                                     CommandParameter="{Binding .}"
                                     FontAttributes="Bold"
                                     Text="Listar Notas"
@@ -113,7 +83,7 @@
                 StrokeShape="RoundRectangle 30"
                 StrokeThickness="1"
                 VerticalOptions="End">
-                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">                    
                     <Label
                         Grid.Row="3"
                         Margin="10,0"
