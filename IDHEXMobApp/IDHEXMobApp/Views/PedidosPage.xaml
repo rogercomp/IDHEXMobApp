@@ -81,7 +81,9 @@
                                 <Label
                                     FontAttributes="Bold"
                                     Text="{Binding TotalNotas, StringFormat='NFs/CTEs ABERTOS: {0}'}"
-                                    TextColor="Black" />
+                                    TextColor="Black" 
+                                    BackgroundColor="LightGray"
+                                    />
                                 <Label
                                     FontAttributes="Bold"
                                     Text="{Binding DataPrevisaoSaida, StringFormat='DATA: {0:dd/MM/yyyy}'}"
