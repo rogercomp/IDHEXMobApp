@@ -3,38 +3,73 @@
     x:Class="IDHEXMobApp.Views.CameraPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:IDHEXMobApp.Helpers.Converters"
     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
+    xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Registro Entrega">
-    <!--<ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25"
-            VerticalOptions="Center">
 
-            <mct:CameraView x:Name="camera" />
-            <Button
-                Clicked="OnTakePhotoClicked"
-                HorizontalOptions="Center"
-                Text="Take photo" />
+    <ContentPage.Resources>
+        <converters:Base64StringToImageSourceConverter x:Key="Base64StringToImageSourceConverter" />
+    </ContentPage.Resources>
 
-        </VerticalStackLayout>
-    </ScrollView>-->
     <ScrollView>
         <VerticalStackLayout Spacing="25" VerticalOptions="Center">
 
-            <!--<mct:CameraView x:Name="camera"  />-->
-            
-            <Button
-                Clicked="OnTakePhotoClicked"
-                HorizontalOptions="Center"
-                Text="Tirar Foto" />
+            <Grid HorizontalOptions="Fill" VerticalOptions="Start">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackLayout
+                    Padding="4"
+                    x:DataType="model:PedidoResponse"
+                    Orientation="Vertical">
 
+                    <Label
+                        Grid.Column="2"
+                        Text="{Binding NumNotaFiscal, StringFormat='NOTA FISCAL: {0}'}"
+                        TextColor="Black" />
+
+                    <Label
+                        Grid.Column="2"
+                        Text="{Binding NumRomaneio, StringFormat='ROMANEIO: {0}'}"
+                        TextColor="Black" />
+
+                    <Label
+                        Grid.Column="2"
+                        Text="{Binding Baixado}"
+                        TextColor="Black" />
+
+                </StackLayout>
+
+                <Button
+                    Grid.Column="0"
+                    Margin="30,1,1,1"
+                    BackgroundColor="#45D991"
+                    Clicked="OnTakePhotoClicked"
+                    HorizontalOptions="Start"
+                    Text="TIRAR FOTO"
+                    WidthRequest="120" />
+
+                <Button
+                    x:Name="SalvarBT"
+                    Grid.Column="1"
+                    Margin="1,1,1,1"
+                    BackgroundColor="#45D991"
+                    Command="{Binding SalvarCommand}"                    
+                    HorizontalOptions="Start"
+                    IsEnabled="False"
+                    Text="SALVAR"
+                    WidthRequest="120" />
+            </Grid>
             <Image
                 x:Name="ImagePreview"
-                HeightRequest="300"
                 HorizontalOptions="Center"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
-                Source="dotnet_bot.png" />
+                MaximumHeightRequest="150"
+                MaximumWidthRequest="300"
+                SemanticProperties.Description=""
+                Source="{Binding ImgCanhoto, Converter={StaticResource Base64StringToImageSourceConverter}}" />
 
             <Label x:Name="FileSizeLabel" HorizontalOptions="Center" />
 

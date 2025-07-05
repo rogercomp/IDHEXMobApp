@@ -9,14 +9,13 @@ namespace IDHEXMobApp.Repositories
     {
         public async Task<IEnumerable<PedidoResponse>> GetPedidosAsync()
         {
-            
-            Int32 motoristaId = 274;
-            Int32 transp = Preferences.Get("transp", 7);
+
+            Int32 motoristaId = Preferences.Get("motoristaId", 0);
+            Int32 transportadoraId = Preferences.Get("transportadoraId", 0);
             string unidade = Preferences.Get("unidade", "1");
 
-
             return await Constantes.BaseUrl
-                .AppendPathSegment($"/IntegraMAUI/{motoristaId}/{transp}/{unidade}")
+                .AppendPathSegment($"/IntegraMAUI/{motoristaId}/{transportadoraId}/{unidade}")
                 .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
                 .GetJsonAsync<IEnumerable<PedidoResponse>>();
         }

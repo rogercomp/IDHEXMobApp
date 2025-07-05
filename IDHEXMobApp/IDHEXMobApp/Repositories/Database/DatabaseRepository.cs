@@ -1,4 +1,5 @@
-﻿using IDHEXMobApp.Models.Response;
+﻿using IDHEXMobApp.Models.Request;
+using IDHEXMobApp.Models.Response;
 using LiteDB;
 
 namespace IDHEXMobApp.Repositories.Database
@@ -15,6 +16,8 @@ namespace IDHEXMobApp.Repositories.Database
         public void Add(PedidoResponse pedido)
         {
             var col = _database.GetCollection<PedidoResponse>(collectionName);
+
+            pedido.Id = Guid.NewGuid();
 
             col.Insert(pedido);
         }
@@ -45,9 +48,33 @@ namespace IDHEXMobApp.Repositories.Database
                 .ToList();
         }
 
+        public PedidoResponse GetPedidosByRomaneioNotaPedidoEmpresaAsync(string numRomaneio, decimal numNotaFiscal, long pedidoId, long empresaId)
+        {
+            return _database
+               .GetCollection<PedidoResponse>(collectionName)
+               .Query()
+               .Where(p => p.NumRomaneio == numRomaneio && p.NumNotaFiscal == numNotaFiscal && p.PedidoId == pedidoId && p.EmpresaId == empresaId)
+               .OrderByDescending(a => a.NumNotaFiscal).FirstOrDefault();
+
+        }
+
         public void Update(PedidoResponse pedido)
         {
-            throw new NotImplementedException();
+            var itemPedido = _database
+                .GetCollection<PedidoResponse>(collectionName)
+                .Query()
+                .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
+                .FirstOrDefault();
+
+            if (itemPedido != null)
+            {
+                itemPedido.DtImgCanhoto = DateTime.Now;
+                itemPedido.ImgCanhoto = "TESTE";
+                itemPedido.CodOcorrencia = pedido.CodOcorrencia;
+            }
+
+            _database.GetCollection<PedidoResponse>(collectionName)
+                     .Update(itemPedido!);
         }
     }
 }

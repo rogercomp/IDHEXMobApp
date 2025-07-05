@@ -46,24 +46,36 @@
                                 x:DataType="model:PedidoResponse"
                                 Orientation="Vertical">
                                 <Label
-                                    TextColor="Black"
                                     Grid.Row="1"
                                     Grid.ColumnSpan="3"
                                     BackgroundColor="LightGray"
                                     FontAttributes="Bold"
                                     FontSize="Medium"
-                                    HorizontalTextAlignment="Center"
                                     HorizontalOptions="Start"
-                                    Text="{Binding Nome}" />
-                                <Label TextColor="Black" Grid.Column="2" Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}" />
-                                <Label TextColor="Black" Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" />
-                                <Label TextColor="Black" Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" />
-                                <Label TextColor="Black" Grid.ColumnSpan="2" Text="{Binding Endereco, StringFormat='Endereço: {0}'}" />
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding Nome}"
+                                    TextColor="Black" />
                                 <Label
-                                    TextColor="Black"
+                                    Grid.Column="2"
+                                    Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}"
+                                    TextColor="Black" />
+                                <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" TextColor="Black" />
+                                <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" TextColor="Black" />
+                                <Label
+                                    Grid.ColumnSpan="2"
+                                    Text="{Binding Endereco, StringFormat='Endereço: {0}'}"
+                                    TextColor="Black" />
+                                <Label
                                     Grid.Column="1"
                                     HorizontalOptions="Start"
-                                    Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}" />
+                                    Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}"
+                                    TextColor="Black" />
+
+                                <Label
+                                    Grid.Column="1"
+                                    HorizontalOptions="Start"
+                                    Text="{Binding Baixado}"
+                                    TextColor="Black" />
                                 <Label
                                     Grid.Column="2"
                                     HorizontalOptions="Start"
@@ -73,7 +85,7 @@
                                     Grid.RowSpan="2"
                                     Grid.Column="1"
                                     Padding="0"
-                                    BackgroundColor="Red"                                    
+                                    BackgroundColor="Red"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotaViewModel}}, Path=CameraCommand, x:DataType=viewModels:NotaViewModel}"
                                     CommandParameter="{Binding .}"
                                     CornerRadius="27"
@@ -81,8 +93,8 @@
                                                           Android=36}"
                                     HeightRequest="54"
                                     HorizontalOptions="End"
-                                    TextColor="WhiteSmoke"
                                     Text="+"
+                                    TextColor="WhiteSmoke"
                                     WidthRequest="54" />
                             </StackLayout>
                         </Border>

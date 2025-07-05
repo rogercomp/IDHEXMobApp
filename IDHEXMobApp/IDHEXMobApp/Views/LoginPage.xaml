@@ -6,13 +6,14 @@
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="LoginPage"
     x:DataType="viewModels:LoginViewModel"
-    BackgroundColor="{StaticResource Secondary}">
+    BackgroundColor="{StaticResource Secondary}"
+    Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Entry">
                 <Setter Property="TextColor" Value="Black" />
-                <Setter Property="PlaceholderColor" Value="Black" />                
+                <Setter Property="PlaceholderColor" Value="Black" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -32,7 +33,7 @@
                     <Entry
                         Keyboard="Text"
                         MaxLength="3"
-                        Placeholder="SIGLA"                        
+                        Placeholder="SIGLA"
                         Text="{Binding Sigla}"
                         TextTransform="Uppercase" />
 
@@ -46,7 +47,7 @@
                         Keyboard="Text"
                         Placeholder="SENHA"
                         Text="{Binding Password}" />
-                    <Grid ColumnDefinitions="*" >
+                    <Grid ColumnDefinitions="*">
                         <BoxView HeightRequest="1" />
                     </Grid>
                     <Grid>

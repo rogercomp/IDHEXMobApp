@@ -1,13 +1,21 @@
-
 namespace IDHEXMobApp.Views;
 
 public partial class CameraPage : ContentPage
 {
-    private int selectedCompressionQuality;
-    public CameraPage()
+    private CameraViewModel _viewModel;   
+    
+
+    public CameraPage(CameraViewModel viewModel)
 	{
 		InitializeComponent();
-	}
+        BindingContext = _viewModel = viewModel;
+    }
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await _viewModel.InitiAsync();
+    }
 
     private async void OnTakePhotoClicked(object sender, EventArgs e)
     {
@@ -40,9 +48,12 @@ public partial class CameraPage : ContentPage
 
                 // Optionally, display the captured image
                 // var image = new Image { Source = ImageSource.FromFile(localFilePath) };
-                ImagePreview.Source = ImageSource.FromFile(localFilePath);
-
-;            }
+                ImagePreview.Source = ImageSource.FromFile(localFilePath);                
+                //var result = File.ReadAllBytes(localFilePath);
+                //_imageBase64 = Convert.ToBase64String(result);
+                ////Preferences.Set("srcImg", imageBase64);
+                SalvarBT.IsEnabled = true;
+            }
         }
         else
         {
