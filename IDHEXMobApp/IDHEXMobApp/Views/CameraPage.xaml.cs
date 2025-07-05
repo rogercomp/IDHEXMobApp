@@ -2,8 +2,7 @@ namespace IDHEXMobApp.Views;
 
 public partial class CameraPage : ContentPage
 {
-    private CameraViewModel _viewModel;   
-    
+    private CameraViewModel _viewModel;    
 
     public CameraPage(CameraViewModel viewModel)
 	{
@@ -14,7 +13,7 @@ public partial class CameraPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await _viewModel.InitiAsync();
+        await _viewModel.InitiAsync();        
     }
 
     private async void OnTakePhotoClicked(object sender, EventArgs e)
@@ -46,18 +45,25 @@ public partial class CameraPage : ContentPage
                     }
                 }
 
-                // Optionally, display the captured image
-                // var image = new Image { Source = ImageSource.FromFile(localFilePath) };
+                
                 ImagePreview.Source = ImageSource.FromFile(localFilePath);                
-                //var result = File.ReadAllBytes(localFilePath);
-                //_imageBase64 = Convert.ToBase64String(result);
-                ////Preferences.Set("srcImg", imageBase64);
+                var result = File.ReadAllBytes(localFilePath);
+                _viewModel.ImgCanhoto = Convert.ToBase64String(result);
                 SalvarBT.IsEnabled = true;
             }
         }
         else
         {
-            await DisplayAlert("Error", "Photo capture is not supported on this device.", "OK");
+            await DisplayAlert("Erro", "Foto capturada não é suportada nesse disopositivo", "OK");
         }
+    }
+
+    public static ImageSource Base64ToImageSource(string base64)
+    {
+        if (string.IsNullOrEmpty(base64))
+            return null;
+
+        byte[] imageBytes = Convert.FromBase64String(base64);
+        return ImageSource.FromStream(() => new MemoryStream(imageBytes));
     }
 }

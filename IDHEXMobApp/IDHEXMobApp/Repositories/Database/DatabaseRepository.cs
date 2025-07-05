@@ -69,7 +69,7 @@ namespace IDHEXMobApp.Repositories.Database
             if (itemPedido != null)
             {
                 itemPedido.DtImgCanhoto = DateTime.Now;
-                itemPedido.ImgCanhoto = "TESTE";
+                itemPedido.ImgCanhoto = pedido.ImgCanhoto;
                 itemPedido.CodOcorrencia = pedido.CodOcorrencia;
             }
 

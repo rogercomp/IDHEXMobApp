@@ -69,6 +69,7 @@ namespace IDHEXMobApp.ViewModels
             {
                 var pedido = _databaseRepository.GetPedidosByRomaneioNotaPedidoEmpresaAsync(NumRomaneio!, decimal.Parse(NumNotaFiscal), long.Parse(PedidoId), long.Parse(EmpresaId));
                 Pedidos = (PedidoResponse)pedido;
+                                
             }
 
             await Task.CompletedTask;
@@ -112,6 +113,17 @@ namespace IDHEXMobApp.ViewModels
             //{
             //  await Shell.Current.DisplayAlert("Atenção", "Pedido não encontrado.", "OK");
             //}
+
+            await Task.CompletedTask;
+        }
+
+        public static ImageSource Base64ToImageSource(string base64)
+        {
+            if (string.IsNullOrEmpty(base64))
+                return null;
+
+            byte[] imageBytes = Convert.FromBase64String(base64);
+            return ImageSource.FromStream(() => new MemoryStream(imageBytes));
         }
     }
 }
