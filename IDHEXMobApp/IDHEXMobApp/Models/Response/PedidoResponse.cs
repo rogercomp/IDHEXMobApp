@@ -11,7 +11,7 @@ namespace IDHEXMobApp.Models.Response
         public string? NumRomaneio { get; set; }
         public DateTime? DataPrevisaoSaida { get; set; }
         public string? NomeTomador { get; set; }
-        public decimal NumNotaFiscal { get; set; }
+        public long NumNotaFiscal { get; set; }
         public decimal? VlrNotaFiscal { get; set; }
         public Int32? Volumes { get; set; }
         public string? Nome { get; set; }
@@ -49,7 +49,7 @@ namespace IDHEXMobApp.Models.Response
             
         }
 
-        public PedidoResponse(long pedidoId, long empresaId, string? numRomaneio, decimal numNotaFiscal, DateTime? dtImgCanhoto, string? codOcorrencia, string? imgCanhoto)
+        public PedidoResponse(long pedidoId, long empresaId, string? numRomaneio, long numNotaFiscal, DateTime? dtImgCanhoto, string? codOcorrencia, string? imgCanhoto)
         {
             PedidoId = pedidoId;
             EmpresaId = empresaId;            

@@ -12,7 +12,7 @@ namespace IDHEXMobApp.Repositories
 
             Int32 motoristaId = Preferences.Get("motoristaId", 0);
             Int32 transportadoraId = Preferences.Get("transportadoraId", 0);
-            string unidade = Preferences.Get("unidade", "1");
+            Int32 unidade = 1;
 
             return await Constantes.BaseUrl
                 .AppendPathSegment($"/IntegraMAUI/{motoristaId}/{transportadoraId}/{unidade}")

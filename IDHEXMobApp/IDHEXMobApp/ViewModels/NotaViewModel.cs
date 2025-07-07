@@ -32,10 +32,14 @@ namespace IDHEXMobApp.ViewModels
 
         [ObservableProperty]
         DateTime? dataPrevisaoSaida;
-        
+
+        [ObservableProperty]
+        string filtroPesquisa;
+
 
         private readonly IDatabaseRepository _databaseRepository;        
-        public ObservableCollection<PedidoResponse> Pedidos { get; set; } = new ObservableCollection<PedidoResponse>();        
+        public ObservableCollection<PedidoResponse> Pedidos { get; set; } = new ObservableCollection<PedidoResponse>();
+        public ObservableCollection<PedidoResponse> PedidosFiltrados { get; set; } = new ObservableCollection<PedidoResponse>();
         public NotaViewModel(IDatabaseRepository databaseRepository)
         {
             _databaseRepository = databaseRepository;            
@@ -50,12 +54,14 @@ namespace IDHEXMobApp.ViewModels
             if(NumRomaneio != null)
             {
                 var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
-                Pedidos = pedidos.ToObservableCollection<PedidoResponse>();
+                PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
             }
             else
-                Pedidos = _databaseRepository.GetAll().Where(p=> p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();                        
+                PedidosFiltrados = _databaseRepository.GetAll().Where(p=> p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();                        
 
-            OnPropertyChanged(nameof(Pedidos));
+            OnPropertyChanged(nameof(PedidosFiltrados));
+
+            Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
 
             IsBusy = false;
 
@@ -78,6 +84,37 @@ namespace IDHEXMobApp.ViewModels
             };
 
             await Shell.Current.GoToAsync(nameof(CameraPage), navigationParams);
+        }
+
+        public async Task CarregaRomaneiosAsync()
+        {
+            IsBusy = true;
+
+            if (NumRomaneio != null)
+            {
+                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
+                PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
+            }
+
+            Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
+
+            IsBusy = false;
+
+            await Task.CompletedTask;
+        }
+
+        public void AtualizarFiltroAsync()
+        {
+
+            PedidosFiltrados.Clear();
+            var termo = FiltroPesquisa?.ToLower() ?? "";
+            var filtrados = string.IsNullOrWhiteSpace(termo)
+                ? Pedidos
+                : Pedidos.Where(x =>
+                    (x.NumNotaFiscal.ToString().Contains(termo))
+                );
+            foreach (var item in filtrados)
+                PedidosFiltrados.Add(item);
         }
     }
 }

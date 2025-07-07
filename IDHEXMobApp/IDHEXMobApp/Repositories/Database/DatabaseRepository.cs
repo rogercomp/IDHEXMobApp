@@ -47,7 +47,7 @@ namespace IDHEXMobApp.Repositories.Database
                 .ToList();
         }
 
-        public PedidoResponse GetPedidosByRomaneioNotaPedidoEmpresaAsync(string numRomaneio, decimal numNotaFiscal, long pedidoId, long empresaId)
+        public PedidoResponse GetPedidosByRomaneioNotaPedidoEmpresaAsync(string numRomaneio, long numNotaFiscal, long pedidoId, long empresaId)
         {
             return _database
                .GetCollection<PedidoResponse>(collectionName)

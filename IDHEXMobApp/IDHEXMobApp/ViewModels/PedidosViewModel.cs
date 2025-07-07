@@ -16,12 +16,16 @@ namespace IDHEXMobApp.ViewModels
         private string sincronizados = "Sinc:";
         [ObservableProperty]
         private string _numRomaneio = string.Empty;
-        public ObservableCollection<RomaneioResponse> Romaneios { get; set; } = new ObservableCollection<RomaneioResponse>();             
+        [ObservableProperty]
+        string filtroPesquisa;
 
+        public ObservableCollection<RomaneioResponse> Romaneios { get; set; } = new ObservableCollection<RomaneioResponse>();
+        public ObservableCollection<RomaneioResponse> RomaneiosFiltrados { get; } = new();
         public PedidosViewModel(IPedidoRepository pedidoRepository, IDatabaseRepository databaseRepository)
         {
             _pedidoRepository = pedidoRepository;
-            _databaseRepository = databaseRepository;            
+            _databaseRepository = databaseRepository;
+            //AtualizarFiltroAsync();
         }
 
         internal async Task InitiAsync()
@@ -70,17 +74,16 @@ namespace IDHEXMobApp.ViewModels
                                      DataPrevisaoSaida = g.Key.DataPrevisaoSaida
                                  }).ToList();
 
-                Romaneios.Clear();
+                RomaneiosFiltrados.Clear();
 
                 foreach (var item in resultado)
                 {
-                    Romaneios.Add(new RomaneioResponse
+                    RomaneiosFiltrados.Add(new RomaneioResponse
                     {
                         NumRomaneio = item.NumRomaneio!,
                         TotalNotas = item.TotalNotas,
                         DataPrevisaoSaida = item.DataPrevisaoSaida
                     });
-
                 }
             }
             else
@@ -152,11 +155,11 @@ namespace IDHEXMobApp.ViewModels
                                    DataPrevisaoSaida = g.Key.DataPrevisaoSaida
                                }).ToList();
 
-              Romaneios.Clear();
+            RomaneiosFiltrados.Clear();
 
               foreach (var item in resultado)
               {
-                  Romaneios.Add(new RomaneioResponse
+                RomaneiosFiltrados.Add(new RomaneioResponse
                   {
                       NumRomaneio = item.NumRomaneio!,
                       TotalNotas = item.TotalNotas,
@@ -164,8 +167,23 @@ namespace IDHEXMobApp.ViewModels
                   });
               }           
 
-            
+            Romaneios = new ObservableCollection<RomaneioResponse>(RomaneiosFiltrados);
+
             await Task.CompletedTask;
-        }       
+        }
+
+        public void AtualizarFiltroAsync()
+        {
+         
+            RomaneiosFiltrados.Clear();
+            var termo = FiltroPesquisa?.ToLower() ?? "";
+            var filtrados = string.IsNullOrWhiteSpace(termo)
+                ? Romaneios
+                : Romaneios.Where(x =>
+                    (x.NumRomaneio?.Contains(termo) ?? false)         
+                );
+            foreach (var item in filtrados)
+                RomaneiosFiltrados.Add(item);
+        }
     }
 }

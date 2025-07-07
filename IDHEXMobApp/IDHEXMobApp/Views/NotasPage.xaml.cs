@@ -16,4 +16,10 @@ public partial class NotasPage : ContentPage
         base.OnAppearing();
         await _viewModel.InitiAsync();
     }
+
+    private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        _viewModel.FiltroPesquisa = e.NewTextValue.ToLower();
+        _viewModel.AtualizarFiltroAsync();
+    }
 }

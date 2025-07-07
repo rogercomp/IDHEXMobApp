@@ -70,7 +70,7 @@ namespace IDHEXMobApp.ViewModels
 
             if (NumNotaFiscal != null)
             {
-                var pedido = _databaseRepository.GetPedidosByRomaneioNotaPedidoEmpresaAsync(NumRomaneio!, decimal.Parse(NumNotaFiscal), long.Parse(PedidoId), long.Parse(EmpresaId));
+                var pedido = _databaseRepository.GetPedidosByRomaneioNotaPedidoEmpresaAsync(NumRomaneio!, long.Parse(NumNotaFiscal), long.Parse(PedidoId), long.Parse(EmpresaId));
                 Pedidos = (PedidoResponse)pedido;
                                 
             }
@@ -89,7 +89,7 @@ namespace IDHEXMobApp.ViewModels
                     long.Parse(PedidoId),
                     long.Parse(EmpresaId),
                     NumRomaneio,
-                    decimal.Parse(NumNotaFiscal),
+                    long.Parse(NumNotaFiscal),
                     DateTime.Now,
                     CodOcorrencia,
                     ImgCanhoto
