@@ -30,4 +30,13 @@
                 Shell.NavBarIsVisible="True" />
         </Tab>
     </FlyoutItem>
+    <FlyoutItem Title="Pendentes">
+        <Tab>
+            <ShellContent
+                Title="Notas"
+                ContentTemplate="{DataTemplate views:PedidosBaixaPage}"
+                Route="PedidosBaixaPage"
+                Shell.NavBarIsVisible="True" />
+        </Tab>
+    </FlyoutItem>
 </Shell>

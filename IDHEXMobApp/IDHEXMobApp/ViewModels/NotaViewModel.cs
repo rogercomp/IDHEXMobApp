@@ -49,11 +49,11 @@ namespace IDHEXMobApp.ViewModels
 
             if(NumRomaneio != null)
             {
-                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!);
+                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
                 Pedidos = pedidos.ToObservableCollection<PedidoResponse>();
             }
             else
-                Pedidos = _databaseRepository.GetAll().ToObservableCollection<PedidoResponse>();                        
+                Pedidos = _databaseRepository.GetAll().Where(p=> p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();                        
 
             OnPropertyChanged(nameof(Pedidos));
 

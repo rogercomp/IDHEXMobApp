@@ -1,32 +1,38 @@
 ﻿using IDHEXMobApp.Helpers;
 using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
+using IDHEXMobApp.Repositories.Services;
 using LiteDB;
+using Shiny.Infrastructure;
+using Shiny.Jobs;
+using Shiny.Support.Repositories;
 
 namespace IDHEXMobApp;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
         builder
-            .UseMauiApp<App>()
+            .UseMauiApp<App>()                    
             .UseMauiCommunityToolkit()
-            .UseMauiCommunityToolkitCamera()
+            .UseMauiCommunityToolkitCamera()            
             .ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-			})
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+            })
             .RegisterDatabaseAndRepositories()
             .RegisterViews().RegisterViewModels();
 #if DEBUG
-		builder.Logging.AddDebug();
+        builder.Logging.AddDebug();
 #endif
 
+        builder.Services.AddHostedService<PedidoService>();
+
         return builder.Build();
-	}
+    }
 
     public static MauiAppBuilder RegisterDatabaseAndRepositories(this MauiAppBuilder mauiAppBuilder)
     {
@@ -36,7 +42,7 @@ public static class MauiProgram
                 return new LiteDatabase($"Filename={AppSettings.DatabasePath};Connection=Shared");
             }
         );
-        
+
         mauiAppBuilder.Services.AddTransient<ILoginRepository, LoginRepository>();
         mauiAppBuilder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
         mauiAppBuilder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
@@ -51,19 +57,20 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<PedidosPage>();
         mauiAppBuilder.Services.AddTransient<NotasPage>();
         mauiAppBuilder.Services.AddTransient<CameraPage>();
+        mauiAppBuilder.Services.AddTransient<PedidosBaixaPage>();
 
         return mauiAppBuilder;
     }
 
     public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
     {
-
         mauiAppBuilder.Services.AddTransient<PrincipalViewModel>();
         mauiAppBuilder.Services.AddTransient<MainViewModel>();
         mauiAppBuilder.Services.AddTransient<LoginViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosViewModel>();
         mauiAppBuilder.Services.AddTransient<NotaViewModel>();
         mauiAppBuilder.Services.AddTransient<CameraViewModel>();
+        mauiAppBuilder.Services.AddTransient<PedidosBaixaViewModel>();
 
         return mauiAppBuilder;
     }

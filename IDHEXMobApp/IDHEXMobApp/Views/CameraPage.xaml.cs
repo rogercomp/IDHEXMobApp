@@ -1,13 +1,62 @@
+using IDHEXMobApp.Models.Ocorrencia;
+
 namespace IDHEXMobApp.Views;
 
 public partial class CameraPage : ContentPage
 {
-    private CameraViewModel _viewModel;    
+    private CameraViewModel _viewModel;
+    public List<TipoOcorrencia> TipoOcorrencias { get; set; }
 
     public CameraPage(CameraViewModel viewModel)
 	{
 		InitializeComponent();
         BindingContext = _viewModel = viewModel;
+        CarregaTipoOcorrencia();
+        PopulatePicker();
+    }
+
+    private void CarregaTipoOcorrencia()
+    {
+        TipoOcorrencias = new List<TipoOcorrencia> 
+        {
+            new TipoOcorrencia { OcorrenciaId = "01", Descricao = "ENTREGA NORMAL" },
+            new TipoOcorrencia { OcorrenciaId = "78", Descricao = "AVARIA" },
+            new TipoOcorrencia { OcorrenciaId = "80", Descricao = "EXTRAVIO" },
+            new TipoOcorrencia { OcorrenciaId = "46", Descricao = "RECEBEDOR AUSENTE" },
+            new TipoOcorrencia { OcorrenciaId = "DEV", Descricao = "DEVOLUÇÃO" },
+            new TipoOcorrencia { OcorrenciaId = "06", Descricao = "ENDEREÇO NÃO LOCALIZADO" },
+            new TipoOcorrencia { OcorrenciaId = "ENP", Descricao = "ENTREGA PARCIAL" },
+            new TipoOcorrencia { OcorrenciaId = "COR", Descricao = "COMPROVANTES RETIDO" },
+            new TipoOcorrencia { OcorrenciaId = "20", Descricao = "NÃO ENTREGUE PELO HORARIO" },
+            new TipoOcorrencia { OcorrenciaId = "21", Descricao = "ESTABELECIMENTO FECHADO" },
+            new TipoOcorrencia { OcorrenciaId = "88", Descricao = "DESTINATARIO RECUSA RECEBER" },
+            new TipoOcorrencia { OcorrenciaId = "33", Descricao = "FALTA DE VOLUME" }                       
+        };
+    }
+
+    private void PopulatePicker()
+    {
+        foreach (var ocorrencia in TipoOcorrencias)
+        {
+            EventPicker.Items.Add(ocorrencia.Descricao);
+        }
+
+        EventPicker.SelectedIndex = 0;
+        _viewModel.CodOcorrencia = TipoOcorrencias[EventPicker.SelectedIndex].OcorrenciaId;
+    }
+
+    private void OnEventIndexChanged(object sender, EventArgs e)
+    {
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+
+        if (selectedIndex != -1)
+        {
+            var selectedOcorrencia = TipoOcorrencias[selectedIndex];
+            string ocorrenciaId = selectedOcorrencia.OcorrenciaId;
+            _viewModel.CodOcorrencia = ocorrenciaId;
+            //DisplayAlert("Ocorrência Selecioanda", $"Id: {ocorrenciaId}, Descrição: {selectedOcorrencia.Descricao}", "OK");
+        }
     }
 
     protected override async void OnAppearing()
@@ -48,7 +97,7 @@ public partial class CameraPage : ContentPage
                 
                 ImagePreview.Source = ImageSource.FromFile(localFilePath);                
                 var result = File.ReadAllBytes(localFilePath);
-                _viewModel.ImgCanhoto = Convert.ToBase64String(result);
+                _viewModel.ImgCanhoto = Convert.ToBase64String(result);                
                 SalvarBT.IsEnabled = true;
             }
         }

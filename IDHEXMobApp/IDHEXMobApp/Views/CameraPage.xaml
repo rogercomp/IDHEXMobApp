@@ -13,20 +13,33 @@
         <converters:Base64StringToImageSourceConverter x:Key="Base64StringToImageSourceConverter" />
     </ContentPage.Resources>
 
+
+
+
     <ScrollView>
+
         <VerticalStackLayout Spacing="25" VerticalOptions="Center">
+            <StackLayout Orientation="Vertical" Padding="4">
+                <Label Text="Selecione Ocorrência" FontAttributes="Bold"  />
+                <Picker
+                    x:Name="EventPicker"                    
+                    SelectedIndexChanged="OnEventIndexChanged" />
+
+            </StackLayout>
 
             <Grid HorizontalOptions="Fill" VerticalOptions="Start">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
+
                 <StackLayout
                     Padding="4"
                     x:DataType="model:PedidoResponse"
                     Orientation="Vertical">
 
                     <Label
+                        Grid.Row="1"
                         Grid.Column="2"
                         Text="{Binding NumNotaFiscal, StringFormat='NOTA FISCAL: {0}'}"
                         TextColor="Black" />
@@ -57,7 +70,7 @@
                     Grid.Column="1"
                     Margin="1,1,1,1"
                     BackgroundColor="#45D991"
-                    Command="{Binding SalvarCommand}"                    
+                    Command="{Binding SalvarCommand}"
                     HorizontalOptions="Start"
                     IsEnabled="False"
                     Text="SALVAR"

@@ -1,5 +1,7 @@
 ﻿using IDHEXMobApp.Models.Response;
+using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
+
 
 
 namespace IDHEXMobApp.ViewModels
@@ -20,8 +22,7 @@ namespace IDHEXMobApp.ViewModels
                     PedidoId = value.PedidoId.ToString();
                     EmpresaId = value.EmpresaId.ToString();
                     NumRomaneio = value.NumRomaneio;
-                    NumNotaFiscal = value.NumNotaFiscal.ToString();
-                    CodOcorrencia = value.CodOcorrencia;
+                    NumNotaFiscal = value.NumNotaFiscal.ToString();                   
                     //DataPrevisaoSaida = value.DataPrevisaoSaida;                    
                     ImgCanhoto = value.ImgCanhoto;
                     //ImgCanhoto = value.ImgCanhoto != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(value.ImgCanhoto))) : null; 
@@ -50,13 +51,15 @@ namespace IDHEXMobApp.ViewModels
         public DateTime? dtImgCanhoto;
 
         [ObservableProperty]
-        string? imgCanhoto;        
+        string? imgCanhoto;
 
+        private readonly IPedidoRepository _pedidoRepository;
         private readonly IDatabaseRepository _databaseRepository;
         public PedidoResponse Pedidos { get; set; } = new PedidoResponse();
-        public CameraViewModel(IDatabaseRepository databaseRepository)
+        public CameraViewModel(IDatabaseRepository databaseRepository, IPedidoRepository pedidoRepository)
         {
             _databaseRepository = databaseRepository;
+            _pedidoRepository = pedidoRepository;
         }
 
         internal async Task InitiAsync()
@@ -94,30 +97,21 @@ namespace IDHEXMobApp.ViewModels
 
             _databaseRepository.Update(pedidoResponse);
 
-            //ProductId,
-            //Descricao,
-            //Estoque.Value,
-            //Barcode,
-            //Preco.Value
-            //);
+            RomaneioResponse romaneio = new RomaneioResponse
+            {
+                NumRomaneio = NumRomaneio,
+                DataPrevisaoSaida = DateTime.Now
+            };
 
-            //if (pedido != null)
-            //{
-            //pedido.ImgCanhoto = pedido.ImgCanhoto;
-            //pedido.DtImgCanhoto = DateTime.Now;
-            //pedido.CodOcorrencia = CodOcorrencia;
-            //_databaseRepository.Update(pedido);
-            //await Shell.Current.GoToAsync("..");
-            //}
-            //else
-            //{
-            //  await Shell.Current.DisplayAlert("Atenção", "Pedido não encontrado.", "OK");
-            //}
+            var navigationParams = new Dictionary<string, object>
+            {
+                {"Romaneio", romaneio }
+            };
 
-            await Task.CompletedTask;
+            await Shell.Current.GoToAsync(nameof(NotasPage), navigationParams);            
         }
 
-        public static ImageSource Base64ToImageSource(string base64)
+        public static ImageSource? Base64ToImageSource(string base64)
         {
             if (string.IsNullOrEmpty(base64))
                 return null;

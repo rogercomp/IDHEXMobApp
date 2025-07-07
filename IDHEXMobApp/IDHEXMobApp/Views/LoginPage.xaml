@@ -7,6 +7,7 @@
     Title="LoginPage"
     x:DataType="viewModels:LoginViewModel"
     BackgroundColor="{StaticResource Secondary}"
+    NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
 
     <ContentPage.Resources>
@@ -18,62 +19,61 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ScrollView>
-        <Grid RowDefinitions="300, *, auto, auto">
-            <Image HeightRequest="150" Source="logo_idhexmob.png" />
 
-            <Border
-                Grid.Row="1"
-                Padding="20,40,20,0"
-                BackgroundColor="White">
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="30,30,0,0" />
-                </Border.StrokeShape>
-                <VerticalStackLayout Spacing="20">
-                    <Entry
-                        Keyboard="Text"
-                        MaxLength="3"
-                        Placeholder="SIGLA"
-                        Text="{Binding Sigla}"
-                        TextTransform="Uppercase" />
+    <Grid RowDefinitions="300, *, auto, auto">
+        <Image HeightRequest="150" Source="logo_idhexmob.png" />
 
-                    <Entry
-                        Keyboard="Numeric"
-                        Placeholder="CPF"
-                        Text="{Binding Name}" />
+        <Border
+            Grid.Row="1"
+            Padding="20,40,20,0"
+            BackgroundColor="White">
+            <Border.StrokeShape>
+                <RoundRectangle CornerRadius="30,30,0,0" />
+            </Border.StrokeShape>
+            <VerticalStackLayout Spacing="20">
+                <Entry
+                    Keyboard="Text"
+                    MaxLength="3"
+                    Placeholder="SIGLA"
+                    Text="{Binding Sigla}"
+                    TextTransform="Uppercase" />
 
-                    <Entry
-                        IsPassword="true"
-                        Keyboard="Text"
-                        Placeholder="SENHA"
-                        Text="{Binding Password}" />
-                    <Grid ColumnDefinitions="*">
-                        <BoxView HeightRequest="1" />
-                    </Grid>
-                    <Grid>
-                        <Button
-                            Command="{Binding LoginCommand}"
-                            FontAttributes="Bold"
-                            FontSize="Micro"
-                            Text="ENTRAR">
-                            <Button.Triggers>
-                                <DataTrigger
-                                    Binding="{Binding LoginCommand.IsRunning}"
-                                    TargetType="Button"
-                                    Value="True">
-                                    <Setter Property="Text" Value="" />
-                                </DataTrigger>
-                            </Button.Triggers>
-                        </Button>
-                        <ActivityIndicator
-                            HorizontalOptions="Center"
-                            IsRunning="{Binding LoginCommand.IsRunning}"
-                            IsVisible="{Binding LoginCommand.IsRunning}"
-                            VerticalOptions="Center"
-                            Color="{StaticResource Primary}" />
-                    </Grid>
-                </VerticalStackLayout>
-            </Border>
-        </Grid>
-    </ScrollView>
+                <Entry
+                    Keyboard="Numeric"
+                    Placeholder="CPF"
+                    Text="{Binding Name}" />
+
+                <Entry
+                    IsPassword="true"
+                    Keyboard="Text"
+                    Placeholder="SENHA"
+                    Text="{Binding Password}" />
+                <Grid ColumnDefinitions="*">
+                    <BoxView HeightRequest="1" />
+                </Grid>
+                <Grid>
+                    <Button
+                        Command="{Binding LoginCommand}"
+                        FontAttributes="Bold"
+                        FontSize="Micro"
+                        Text="ENTRAR">
+                        <Button.Triggers>
+                            <DataTrigger
+                                Binding="{Binding LoginCommand.IsRunning}"
+                                TargetType="Button"
+                                Value="True">
+                                <Setter Property="Text" Value="" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                    <ActivityIndicator
+                        HorizontalOptions="Center"
+                        IsRunning="{Binding LoginCommand.IsRunning}"
+                        IsVisible="{Binding LoginCommand.IsRunning}"
+                        VerticalOptions="Center"
+                        Color="{StaticResource Primary}" />
+                </Grid>
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
 </ContentPage>

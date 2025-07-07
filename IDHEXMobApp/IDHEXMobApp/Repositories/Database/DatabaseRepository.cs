@@ -1,5 +1,4 @@
-﻿using IDHEXMobApp.Models.Request;
-using IDHEXMobApp.Models.Response;
+﻿using IDHEXMobApp.Models.Response;
 using LiteDB;
 
 namespace IDHEXMobApp.Repositories.Database
@@ -55,7 +54,6 @@ namespace IDHEXMobApp.Repositories.Database
                .Query()
                .Where(p => p.NumRomaneio == numRomaneio && p.NumNotaFiscal == numNotaFiscal && p.PedidoId == pedidoId && p.EmpresaId == empresaId)
                .OrderByDescending(a => a.NumNotaFiscal).FirstOrDefault();
-
         }
 
         public void Update(PedidoResponse pedido)
@@ -76,5 +74,17 @@ namespace IDHEXMobApp.Repositories.Database
             _database.GetCollection<PedidoResponse>(collectionName)
                      .Update(itemPedido!);
         }
+
+        //public void Baixar(PedidoResponse pedido)
+        //    {
+        //    var itemPedido = _database
+        //        .GetCollection<PedidoResponse>(collectionName)
+        //        .Query()
+        //        .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
+        //        .FirstOrDefault();         
+            
+        //    _database.GetCollection<PedidoResponse>(collectionName)
+        //             .Delete(itemPedido.Id);
+        //}
     }
 }

@@ -9,5 +9,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(PedidosPage), typeof(PedidosPage));
         Routing.RegisterRoute(nameof(NotasPage), typeof(NotasPage));
         Routing.RegisterRoute(nameof(CameraPage), typeof(CameraPage));
+        Routing.RegisterRoute(nameof(PedidosBaixaPage), typeof(PedidosBaixaPage));
     }
 }
