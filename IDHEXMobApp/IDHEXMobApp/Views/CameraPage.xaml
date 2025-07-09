@@ -2,20 +2,13 @@
 <ContentPage
     x:Class="IDHEXMobApp.Views.CameraPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:IDHEXMobApp.Helpers.Converters"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"    
     xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
-    Title="Registro Entrega">
-
-    <ContentPage.Resources>
-        <converters:Base64StringToImageSourceConverter x:Key="Base64StringToImageSourceConverter" />
-    </ContentPage.Resources>
-
-
-
-
+    Title="Registro Entrega"
+    BackgroundColor="{StaticResource White}">
+    
     <ScrollView>
 
         <VerticalStackLayout Spacing="25" VerticalOptions="Center">
@@ -82,8 +75,7 @@
                 MaximumHeightRequest="150"
                 MaximumWidthRequest="300"
                 SemanticProperties.Description=""
-                Source="{Binding ImgCanhoto, Converter={StaticResource Base64StringToImageSourceConverter}}" />
-
+                Source="{Binding ImgCanhoto}" />
             <Label x:Name="FileSizeLabel" HorizontalOptions="Center" />
 
         </VerticalStackLayout>

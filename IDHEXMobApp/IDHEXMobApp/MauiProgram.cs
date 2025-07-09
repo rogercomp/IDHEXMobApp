@@ -3,9 +3,6 @@ using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
 using IDHEXMobApp.Repositories.Services;
 using LiteDB;
-using Shiny.Infrastructure;
-using Shiny.Jobs;
-using Shiny.Support.Repositories;
 
 namespace IDHEXMobApp;
 
@@ -58,6 +55,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<NotasPage>();
         mauiAppBuilder.Services.AddTransient<CameraPage>();
         mauiAppBuilder.Services.AddTransient<PedidosBaixaPage>();
+        mauiAppBuilder.Services.AddTransient<PedidosLimparPage>();
 
         return mauiAppBuilder;
     }
@@ -71,6 +69,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<NotaViewModel>();
         mauiAppBuilder.Services.AddTransient<CameraViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosBaixaViewModel>();
+        mauiAppBuilder.Services.AddTransient<PedidosLimparViewModel>();
 
         return mauiAppBuilder;
     }

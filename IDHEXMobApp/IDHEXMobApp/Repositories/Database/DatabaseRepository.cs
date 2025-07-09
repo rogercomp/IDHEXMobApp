@@ -21,11 +21,16 @@ namespace IDHEXMobApp.Repositories.Database
             col.Insert(pedido);
         }
 
-        public void Delete(PedidoResponse pedido)
+        public void DeleteAll(PedidoResponse pedido)
         {
             //var col = _database.GetCollection<PedidoResponse>(collectionName);
             _database.DropCollection("pedidos");
             //col.DeleteAll();
+        }
+        public void DeleteById(Guid Id)
+        {
+            var col = _database.GetCollection<PedidoResponse>(collectionName);
+            col.Delete(Id);
         }
 
         public IEnumerable<PedidoResponse> GetAll()

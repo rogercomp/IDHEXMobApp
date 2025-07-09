@@ -17,4 +17,12 @@ public partial class PrincipalViewModel: BaseViewModel
     [RelayCommand]
     public async Task GoToNotasAsync()
          => await Shell.Current.GoToAsync(nameof(NotasPage));
+
+    [RelayCommand]
+    public async Task GoToBaixarAsync()
+      => await Shell.Current.GoToAsync(nameof(PedidosBaixaPage));
+
+    [RelayCommand]
+    public async Task GoToLimparAsync()
+        => await Shell.Current.GoToAsync(nameof(PedidosLimparPage));
 }

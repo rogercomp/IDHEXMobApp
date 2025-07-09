@@ -59,13 +59,14 @@
 		<PackageReference Include="Flunt" Version="2.0.5" />
 		<PackageReference Include="Flurl" Version="4.0.0" />
 		<PackageReference Include="Flurl.Http" Version="4.0.2" />
+		<PackageReference Include="Google.Cloud.Firestore" Version="3.10.0" />
+		<PackageReference Include="Google.Cloud.Storage.V1" Version="4.13.0" />
 		<PackageReference Include="LiteDB" Version="5.0.21" />
 		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.6" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.81" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.81" />
 		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.81" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
-		<PackageReference Include="Shiny.Jobs" Version="3.3.4" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -94,9 +95,20 @@
 	  <MauiXaml Update="Views\PedidosBaixaPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\PedidosLimparPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\PedidosPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="GoogleCred\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiAsset Include="idhexmob-bfc45a0f4340.json" />
 	</ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">

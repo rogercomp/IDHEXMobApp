@@ -64,9 +64,8 @@ namespace IDHEXMobApp.ViewModels
                     }
                 }
 
-
-                var resultado = (from p in pedidos
-                                 group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
+                var resultado = (from p in pedidos.Where(p=> p.Baixado == "NÃO")
+                                 group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g                                 
                                  select new RomaneioResponse
                                  {
                                      NumRomaneio = g.Key.NumRomaneio,
@@ -146,7 +145,7 @@ namespace IDHEXMobApp.ViewModels
               var itens = _databaseRepository.GetAll();
 
 
-              var resultado = (from p in itens
+              var resultado = (from p in itens.Where(p => p.Baixado == "NÃO")
                                group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
                                select new RomaneioResponse
                                {

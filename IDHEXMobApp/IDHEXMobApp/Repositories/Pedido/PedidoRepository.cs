@@ -31,12 +31,12 @@ namespace IDHEXMobApp.Repositories
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string chegada, string ocorrenciaId, string imgCanhoto)
+        public async Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string ocorrenciaId, string imgCanhoto)
         {
             var data = new Object();
 
             var response = await Constantes.BaseUrl
-               .AppendPathSegment($"/IntegraMAUI/{pedidoId}/{empresaId}/{chegada}/{ocorrenciaId}/{imgCanhoto}")
+               .AppendPathSegment($"/IntegraMAUI/{pedidoId}/{empresaId}/{ocorrenciaId}/{imgCanhoto}")
                .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
                .PutJsonAsync(data);
 

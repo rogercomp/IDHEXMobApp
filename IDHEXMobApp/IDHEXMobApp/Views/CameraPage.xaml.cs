@@ -92,8 +92,7 @@ public partial class CameraPage : ContentPage
                     {
                         await stream.CopyToAsync(fileStream);
                     }
-                }
-
+                }               
                 
                 ImagePreview.Source = ImageSource.FromFile(localFilePath);                
                 var result = File.ReadAllBytes(localFilePath);

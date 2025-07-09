@@ -51,7 +51,7 @@ namespace IDHEXMobApp.ViewModels
         public DateTime? dtImgCanhoto;
 
         [ObservableProperty]
-        string? imgCanhoto;
+        string? imgCanhoto;        
 
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IDatabaseRepository _databaseRepository;
@@ -72,7 +72,6 @@ namespace IDHEXMobApp.ViewModels
             {
                 var pedido = _databaseRepository.GetPedidosByRomaneioNotaPedidoEmpresaAsync(NumRomaneio!, long.Parse(NumNotaFiscal), long.Parse(PedidoId), long.Parse(EmpresaId));
                 Pedidos = (PedidoResponse)pedido;
-                                
             }
 
             await Task.CompletedTask;
@@ -83,7 +82,6 @@ namespace IDHEXMobApp.ViewModels
         [RelayCommand]
         public async Task SalvarAsync()
         {
-
             var pedidoResponse = new PedidoResponse
                 (
                     long.Parse(PedidoId),
@@ -97,6 +95,27 @@ namespace IDHEXMobApp.ViewModels
 
             _databaseRepository.Update(pedidoResponse);
 
+            //if (Conexao.CheckConnectivity())
+            //{
+            //    var appRoot = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.LastIndexOf("\\bin"));
+            //    string jsonPath = appRoot + "\\GoogleCred\\idhexmob-bfc45a0f4340.json";
+
+            //    //string jsonPath = Directory.GetCurrentDirectory() + "GoogleCred/idhexmob-bfc45a0f4340.json";
+            //    var credential = GoogleCredential.FromFile(jsonPath);
+
+            //    var bucketName = "idheximages";
+            //    var objectName = $"{Guid.NewGuid()}.jpg";
+            //    using var storageClient = StorageClient.Create(credential);
+            //    await storageClient.UploadObjectAsync(bucketName, objectName, "image/jpeg", imageStream);
+
+            //    ImgCanhoto = $"{objectName}";
+
+            //    var pedido = _databaseRepository.GetById(long.Parse(PedidoId), long.Parse(EmpresaId), long.Parse(NumNotaFiscal), NumRomaneio);
+            //    bool ok = await _pedidoRepository.AtualizaPedidoAsync(PedidoId, EmpresaId, CodOcorrencia!, ImgCanhoto!);
+            //    if (ok)
+            //        _databaseRepository.DeleteById(pedido.Id);
+            //}
+
             RomaneioResponse romaneio = new RomaneioResponse
             {
                 NumRomaneio = NumRomaneio,
@@ -109,15 +128,6 @@ namespace IDHEXMobApp.ViewModels
             };
 
             await Shell.Current.GoToAsync(nameof(NotasPage), navigationParams);            
-        }
-
-        public static ImageSource? Base64ToImageSource(string base64)
-        {
-            if (string.IsNullOrEmpty(base64))
-                return null;
-
-            byte[] imageBytes = Convert.FromBase64String(base64);
-            return ImageSource.FromStream(() => new MemoryStream(imageBytes));
-        }
+        }        
     }
 }

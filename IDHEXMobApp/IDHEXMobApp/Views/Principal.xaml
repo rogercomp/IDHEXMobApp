@@ -29,17 +29,25 @@
                 TextColor="#FFFFFF"
                 VerticalOptions="Start" />
 
-            <!--<Button
+            <Button
                 Grid.Row="1"
                 Margin="10"
                 BackgroundColor="#BB2D3B"
-                Command="{Binding GoToNotasCommand}"
+                Command="{Binding GoToBaixarCommand}"
                 FontAttributes="Bold"
-                Text="ROMANEIOS"
+                Text="PENDENTES ENVIO"
                 TextColor="#FFFFFF"
-                VerticalOptions="Start">
+                VerticalOptions="Start" />
 
-            </Button>-->
+            <Button
+                Grid.Row="1"
+                Margin="10"
+                BackgroundColor="#BB2D3B"
+                Command="{Binding GoToLimparCommand}"
+                FontAttributes="Bold"
+                Text="LIMPAR BASE LOCAL"
+                TextColor="#FFFFFF"
+                VerticalOptions="Start" />
 
         </VerticalStackLayout>
     </Grid>

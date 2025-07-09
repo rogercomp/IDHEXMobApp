@@ -8,7 +8,8 @@
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Notas"
     x:DataType="viewModels:NotaViewModel"
-    NavigationPage.HasNavigationBar="False">
+    NavigationPage.HasNavigationBar="False"
+    BackgroundColor="{StaticResource White}">
 
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/Colors.xaml" />
@@ -29,9 +30,12 @@
             <VerticalStackLayout Padding="10" Spacing="10">
                 <SearchBar
                     x:Name="searchBar"
+                    BackgroundColor="#f3f3f3"
                     Placeholder="Digite a nota"
+                    PlaceholderColor="DarkGray"
                     Text="{Binding FiltroPesquisa, Mode=TwoWay}"
-                    TextChanged="SearchBar_TextChanged" />
+                    TextChanged="SearchBar_TextChanged"
+                    TextColor="Black" />
                 <CollectionView
                     Margin="20"
                     EmptyView="Nenhum item encontrado"

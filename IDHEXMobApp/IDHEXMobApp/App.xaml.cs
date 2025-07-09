@@ -1,5 +1,4 @@
-﻿using Shiny.Jobs;
-
+﻿
 namespace IDHEXMobApp;
 
 public partial class App : Application

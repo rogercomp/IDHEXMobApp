@@ -29,6 +29,9 @@
                 x:Name="searchBar"
                 Placeholder="Digite o romaneio"
                 TextChanged="SearchBar_TextChanged"
+                BackgroundColor="#f3f3f3" 
+                TextColor="Black" 
+                PlaceholderColor="DarkGray"                
                 Text="{Binding FiltroPesquisa, Mode=TwoWay}" />
 
             <CollectionView

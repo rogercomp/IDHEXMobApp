@@ -22,6 +22,7 @@ namespace IDHEXMobApp.Models.Response
         public DateTime? DtImgCanhoto { get; set; }
         public string? CodOcorrencia { get; set; }
         public string? ImgCanhoto { get; set; }
+        public string Enviado { get; set; } = "NÃO";
 
         [JsonIgnore]
         public string Baixado

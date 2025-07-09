@@ -6,7 +6,7 @@ namespace IDHEXMobApp.Repositories
     {
         Task<IEnumerable<PedidoResponse>> GetPedidosAsync();
         Task<bool> AtualizaSincronismoAsync(long pedidoId, long empresaId);
-        Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string chegada, string ocorrenciaId, string imgCanhoto);
+        Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string ocorrenciaId, string imgCanhoto);
         
     }
 }
