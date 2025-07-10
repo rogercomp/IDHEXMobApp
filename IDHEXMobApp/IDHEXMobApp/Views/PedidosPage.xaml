@@ -17,22 +17,16 @@
     </ContentPage.Resources>
 
 
-    <Grid RowDefinitions="*, 70">
-        <ActivityIndicator
-            Margin="0,20,0,0"
-            IsEnabled="{Binding IsBusy}"
-            IsRunning="{Binding IsBusy}"
-            IsVisible="{Binding IsBusy}"
-            Color="{StaticResource MidnightBlue}" />
+    <Grid RowDefinitions="*, 70">       
         <VerticalStackLayout Padding="10" Spacing="10">
             <SearchBar
                 x:Name="searchBar"
+                BackgroundColor="#f3f3f3"
                 Placeholder="Digite o romaneio"
+                PlaceholderColor="DarkGray"
+                Text="{Binding FiltroPesquisa, Mode=TwoWay}"
                 TextChanged="SearchBar_TextChanged"
-                BackgroundColor="#f3f3f3" 
-                TextColor="Black" 
-                PlaceholderColor="DarkGray"                
-                Text="{Binding FiltroPesquisa, Mode=TwoWay}" />
+                TextColor="Black" />
 
             <CollectionView
                 Margin="20"
@@ -43,12 +37,9 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Border
-                            Margin="10,5"
-                            Padding="0"
-                            BackgroundColor="WhiteSmoke"
-                            Stroke="Gray"
-                            StrokeShape="RoundRectangle 5"
-                            StrokeThickness="1">
+                            Margin="0,5,0,0"
+                            HeightRequest="125"
+                            Style="{StaticResource CardView}">
                             <StackLayout
                                 Padding="4"
                                 x:DataType="model:RomaneioResponse"
@@ -69,15 +60,13 @@
                                     TextColor="Black" />
 
                                 <Button
-                                    Margin="10,25,10,20"
-                                    BackgroundColor="#BB2D3B"
+                                    Margin="15,10,15,5"
                                     Command="{Binding Source={RelativeSource AncestorType={x:Type viewModel:PedidosViewModel}}, Path=GoToEditCommand, x:DataType=viewModel:PedidosViewModel}"
                                     CommandParameter="{Binding .}"
                                     FontAttributes="Bold"
-                                    Text="Listar Notas"
-                                    TextColor="#FFFFFF"
+                                    Style="{StaticResource ButtonOutline}"
+                                    Text="LISTAR NOTAS"
                                     VerticalOptions="End" />
-
 
                             </StackLayout>
                         </Border>
@@ -112,5 +101,14 @@
                     TextColor="Black" />
             </Grid>
         </Border>
+        <ActivityIndicator
+            Grid.RowSpan="2"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="Fill"
+            IsEnabled="{Binding IsBusy}"
+            IsRunning="{Binding IsBusy}"
+            IsVisible="{Binding IsBusy}"
+            VerticalOptions="Center"
+            Color="{StaticResource Primary}" />
     </Grid>
 </ContentPage>

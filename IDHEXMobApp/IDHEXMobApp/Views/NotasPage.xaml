@@ -8,8 +8,8 @@
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Notas"
     x:DataType="viewModels:NotaViewModel"
-    NavigationPage.HasNavigationBar="False"
-    BackgroundColor="{StaticResource White}">
+    BackgroundColor="{StaticResource White}"
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary Source="/Resources/Styles/Colors.xaml" />
@@ -20,13 +20,6 @@
 
     <ScrollView Orientation="Vertical">
         <Grid RowDefinitions="auto,*,auto">
-
-            <ActivityIndicator
-                Margin="0,20,0,0"
-                IsEnabled="{Binding IsBusy}"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                Color="{StaticResource Primary}" />
             <VerticalStackLayout Padding="10" Spacing="10">
                 <SearchBar
                     x:Name="searchBar"
@@ -46,10 +39,7 @@
                             <Border
                                 Margin="10,5"
                                 Padding="0"
-                                BackgroundColor="WhiteSmoke"
-                                Stroke="Gray"
-                                StrokeShape="RoundRectangle 5"
-                                StrokeThickness="1">
+                                Style="{StaticResource CardView}">
                                 <StackLayout
                                     Padding="4"
                                     x:DataType="model:PedidoResponse"
@@ -111,6 +101,15 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                IsEnabled="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                HorizontalOptions="Fill"
+                VerticalOptions="Center"
+                Color="{StaticResource Primary}" />
         </Grid>
     </ScrollView>
 </ContentPage>

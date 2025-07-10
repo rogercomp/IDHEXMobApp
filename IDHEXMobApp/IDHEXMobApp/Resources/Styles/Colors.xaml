@@ -4,8 +4,12 @@
 
     <!--  Note: For Android please see also Platforms\Android\Resources\values\colors.xml  -->
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="PrimaryDark">#ac99ea</Color>
+    <!--<Color x:Key="Primary">#512BD4</Color>
+    <Color x:Key="PrimaryDark">#ac99ea</Color>-->
+    <Color x:Key="Primary">#45D991</Color>
+    <Color x:Key="PrimaryDark">#FFA000</Color>
+    <Color x:Key="Accent">#00BCD4</Color>
+
     <Color x:Key="PrimaryDarkText">#242424</Color>
     <Color x:Key="Secondary">#DFD8F7</Color>
     <Color x:Key="SecondaryDarkText">#9880e5</Color>
@@ -26,6 +30,9 @@
     <Color x:Key="Gray900">#212121</Color>
     <Color x:Key="Gray950">#141414</Color>
 
+    <Color x:Key="LightBackground">#FAF9F8</Color>
+    <Color x:Key="DarkBackground">Black</Color>
+
     <SolidColorBrush x:Key="PrimaryBrush" Color="{StaticResource Primary}" />
     <SolidColorBrush x:Key="SecondaryBrush" Color="{StaticResource Secondary}" />
     <SolidColorBrush x:Key="TertiaryBrush" Color="{StaticResource Tertiary}" />
@@ -40,4 +47,7 @@
     <SolidColorBrush x:Key="Gray600Brush" Color="{StaticResource Gray600}" />
     <SolidColorBrush x:Key="Gray900Brush" Color="{StaticResource Gray900}" />
     <SolidColorBrush x:Key="Gray950Brush" Color="{StaticResource Gray950}" />
+
+
+
 </ResourceDictionary>

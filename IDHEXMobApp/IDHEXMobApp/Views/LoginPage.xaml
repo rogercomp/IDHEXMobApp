@@ -6,7 +6,7 @@
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="LoginPage"
     x:DataType="viewModels:LoginViewModel"
-    BackgroundColor="{StaticResource Secondary}"
+    BackgroundColor="{StaticResource LightBackground}"
     NavigationPage.HasNavigationBar="False"
     Shell.NavBarIsVisible="False">
 
@@ -21,7 +21,7 @@
 
 
     <Grid RowDefinitions="300, *, auto, auto">
-        <Image HeightRequest="150" Source="logo_idhexmob.png" />
+        <Image HeightRequest="150" WidthRequest="150" Source="truck_logo.png" />
 
         <Border
             Grid.Row="1"
@@ -54,9 +54,9 @@
                 <Grid>
                     <Button
                         Command="{Binding LoginCommand}"
-                        FontAttributes="Bold"
-                        FontSize="Micro"
-                        Text="ENTRAR">
+                        FontAttributes="Bold"                        
+                        Text="ENTRAR"
+                        Style="{StaticResource ButtonOutline}">
                         <Button.Triggers>
                             <DataTrigger
                                 Binding="{Binding LoginCommand.IsRunning}"
@@ -65,7 +65,9 @@
                                 <Setter Property="Text" Value="" />
                             </DataTrigger>
                         </Button.Triggers>
-                    </Button>
+                    </Button>                    
+                    
+                    
                     <ActivityIndicator
                         HorizontalOptions="Center"
                         IsRunning="{Binding LoginCommand.IsRunning}"

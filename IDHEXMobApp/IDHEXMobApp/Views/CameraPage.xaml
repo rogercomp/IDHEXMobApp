@@ -51,8 +51,8 @@
 
                 <Button
                     Grid.Column="0"
-                    Margin="30,1,1,1"
-                    BackgroundColor="#45D991"
+                    Margin="30,1,1,1"                    
+                    Style="{StaticResource ButtonOutline}"
                     Clicked="OnTakePhotoClicked"
                     HorizontalOptions="Start"
                     Text="TIRAR FOTO"
@@ -62,7 +62,7 @@
                     x:Name="SalvarBT"
                     Grid.Column="1"
                     Margin="1,1,1,1"
-                    BackgroundColor="#45D991"
+                    Style="{StaticResource ButtonOutline}"
                     Command="{Binding SalvarCommand}"
                     HorizontalOptions="Start"
                     IsEnabled="False"
@@ -71,8 +71,10 @@
             </Grid>
             <Image
                 x:Name="ImagePreview"
+                Aspect="AspectFill"
                 HorizontalOptions="Center"
-                MaximumHeightRequest="150"
+                VerticalOptions="Center"
+                MaximumHeightRequest="450"
                 MaximumWidthRequest="300"
                 SemanticProperties.Description=""
                 Source="{Binding ImgCanhoto}" />

@@ -396,7 +396,7 @@
 
     <Style ApplyToDerivedTypes="True" TargetType="Page">
         <Setter Property="Padding" Value="0" />
-        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource OffBlack}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource OffBlack}}" />
     </Style>
 
     <Style ApplyToDerivedTypes="True" TargetType="Shell">
@@ -424,5 +424,22 @@
         <Setter Property="UnselectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="SelectedTabColor" Value="{AppThemeBinding Light={StaticResource Gray950}, Dark={StaticResource Gray200}}" />
     </Style>
+
+    <Style x:Key="ButtonOutline" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource LightBackground}" />
+        <Setter Property="TextColor" Value="{StaticResource Gray950}" />
+        <Setter Property="BorderColor" Value="#45D991" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
+    <Style x:Key="CardView" TargetType="Border">
+        <Setter Property="Stroke" Value="#DDDDDD" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="StrokeShape" Value="RoundRectangle 10" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Background" Value="{StaticResource LightBackground}" />
+    </Style>
+
 
 </ResourceDictionary>

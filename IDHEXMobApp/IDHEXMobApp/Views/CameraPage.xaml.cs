@@ -96,7 +96,7 @@ public partial class CameraPage : ContentPage
                 
                 ImagePreview.Source = ImageSource.FromFile(localFilePath);                
                 var result = File.ReadAllBytes(localFilePath);
-                _viewModel.ImgCanhoto = Convert.ToBase64String(result);                
+                _viewModel.ImgCanhoto = localFilePath;                
                 SalvarBT.IsEnabled = true;
             }
         }

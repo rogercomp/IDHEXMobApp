@@ -29,7 +29,27 @@ public partial class LoginViewModel: BaseViewModel
     {        
         try
         {
+            if (String.IsNullOrWhiteSpace(Sigla))
+            {
+                await Shell.Current.DisplayAlert("Atenção", "Campo: SIGLA vazio", "OK");
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(Name))
+            {
+                await Shell.Current.DisplayAlert("Atenção", "Campo: CPF vazio", "OK");
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(Password))
+            {
+                await Shell.Current.DisplayAlert("Atenção", "Campo: Senha vazio", "OK");
+                return;
+            }
+
             var loginRequest = new LoginRequest(Name, Password, Sigla);
+
+            
 
             var contract = new LoginContract(loginRequest);
 
@@ -55,7 +75,7 @@ public partial class LoginViewModel: BaseViewModel
 
                 //await toast.Show(cancellation.Token);
 
-                await Shell.Current.DisplayAlert("Atenção", result.message, "OK");
+                await Shell.Current.DisplayAlert("Atenção", $"{ result.message} - Verifique a conexão/usuário/senha!", "OK");
 
                 return;
             }
