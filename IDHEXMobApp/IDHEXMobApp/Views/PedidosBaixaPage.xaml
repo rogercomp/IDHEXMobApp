@@ -26,9 +26,16 @@
             Style="{StaticResource ButtonOutline}"
             Text="BAIXAR TODOS"
             VerticalOptions="Start" />
-        
+
+        <Label
+            FontSize="Medium"
+            Margin="10,55,10,10"
+            HorizontalOptions="Center"
+            Text="{Binding TempoRestante, StringFormat='Baixa Automática em: {0}'}"
+            VerticalOptions="Start" />
+
         <CollectionView
-            Margin="8,60,0,0"
+            Margin="8,80,0,0"
             EmptyView="Nenhum item encontrado"
             ItemsSource="{Binding Pedidos}">
             <CollectionView.ItemTemplate>

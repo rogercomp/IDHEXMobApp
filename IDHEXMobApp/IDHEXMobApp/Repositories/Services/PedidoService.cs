@@ -1,22 +1,93 @@
-﻿using IDHEXMobApp.Helpers.Uteis;
+﻿using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Storage.V1;
+using IDHEXMobApp.Helpers.Uteis;
+using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories.Database;
-using Microsoft.Extensions.Hosting;
 
 namespace IDHEXMobApp.Repositories.Services
 {
-    public class PedidoService : BackgroundService
+    public class PedidoService: IDisposable //: BackgroundService
     {
-        public PedidoService()
+        private readonly IDatabaseRepository _databaseRepository;
+        private readonly IPedidoRepository _pedidoRepository;
+        private Timer _timer = null;
+        public PedidoService(IDatabaseRepository databaseRepository, IPedidoRepository pedidoRepository)
         {
+            //_timer = new Timer(Timer)
             System.Diagnostics.Debug.WriteLine("PedidoService CONSTRUTOR chamado!");
-        }
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+            _timer = new Timer(DoWork, null, TimeSpan.Zero, TimeSpan.FromMinutes(10));
+            Task.Delay(Timeout.Infinite, new CancellationToken());
+            _databaseRepository = databaseRepository;
+            _pedidoRepository = pedidoRepository;
+        }     
+
+        private async void DoWork(object? state)
         {
-            while (!stoppingToken.IsCancellationRequested)
+            
+            if (Conexao.CheckConnectivity())
             {
-                // Sua lógica de background
-                await Task.Delay(TimeSpan.FromMinutes(2), stoppingToken);
+                IEnumerable<PedidoResponse> pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO" && p.ImgCanhoto is not null && p.CodOcorrencia is not null);
+
+                foreach (var item in pedidos)
+                {
+                    string credentialsFileName = "idhexmob-bfc45a0f4340.json";
+                    string localPath = Path.Combine(FileSystem.CacheDirectory, credentialsFileName);
+
+                    if (!File.Exists(localPath))
+                    {
+                        using var json = await FileSystem.OpenAppPackageFileAsync(credentialsFileName);
+                        using var dest = File.Create(localPath);
+                        await json.CopyToAsync(dest);
+                    }
+
+                    var credential = GoogleCredential.FromFile(localPath);
+                    using var storageClient = StorageClient.Create(credential);
+
+                    FileStream imageStream = null!;
+                    var bucketName = "idheximages";
+
+                    if (!String.IsNullOrEmpty(item.ImgCanhoto))
+                        imageStream = File.OpenRead(item.ImgCanhoto!);
+
+                    var objectName = $"{Guid.NewGuid()}.jpg";
+                    await storageClient.UploadObjectAsync(bucketName, objectName, "image/jpeg", imageStream);
+
+                    item.ImgCanhoto = $"{objectName}";
+
+                    //// Corrigido: aguardar o Task para obter o Stream
+                    //var resourceStreamTask = FileSystem.OpenAppPackageFileAsync("idhexmob-bfc45a0f4340.json");
+                    //resourceStreamTask.Wait();
+                    //var resourceStream = resourceStreamTask.Result;
+
+                    //var credential = GoogleCredential.FromStream(resourceStream);
+
+                    //var bucketName = "idheximages";
+                    //var objectName = $"{Guid.NewGuid()}.jpg";
+                    //using var storageClient = StorageClient.Create(credential);
+
+                    //FileStream imageStream = File.OpenRead(item.ImgCanhoto!);
+
+                    //storageClient.UploadObject(bucketName, objectName, "image/jpeg", imageStream);
+
+                    //item.ImgCanhoto = $"{objectName}";
+
+                    bool ok = _pedidoRepository.AtualizaPedidoAsync(item.PedidoId, item.EmpresaId, item.CodOcorrencia!, item.ImgCanhoto!).GetAwaiter().GetResult();
+                    if (ok)
+                        _databaseRepository.DeleteById(item.Id);
+                }
+                Preferences.Set("UltimaExecucaoPedidoService", DateTime.Now);
+
             }
+            else
+            {
+                Preferences.Set("UltimaExecucaoPedidoService", DateTime.Now);
+            }
+            
+        }
+        //protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        public void Dispose()
+        {
+            _timer?.Dispose();            
         }
     }
 }

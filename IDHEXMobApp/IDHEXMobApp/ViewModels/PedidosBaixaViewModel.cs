@@ -11,8 +11,12 @@ namespace IDHEXMobApp.ViewModels
     public partial class PedidosBaixaViewModel : BaseViewModel
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IDatabaseRepository _databaseRepository;
+        private readonly IDatabaseRepository _databaseRepository;        
+        private int _segundosRestantes;
+        private System.Timers.Timer? _cronometro;
 
+        [ObservableProperty]
+        private string tempoRestante = "10:00";
         [ObservableProperty]
         private string pendentes = "Pendentes Envio: 0";
         [ObservableProperty]
@@ -23,6 +27,7 @@ namespace IDHEXMobApp.ViewModels
         {
             _pedidoRepository = pedidoRepository;
             _databaseRepository = databaseRepository;
+            IniciarCronometro();
         }
 
         internal async Task InitiAsync()
@@ -46,21 +51,45 @@ namespace IDHEXMobApp.ViewModels
             IsBusy = false;         
         }
 
+        private void IniciarCronometro()
+        {
+            var ultimaExecucao = Preferences.Get("UltimaExecucaoPedidoService", DateTime.Now);
+            var proximaExecucao = ultimaExecucao.AddMinutes(10);
+            var segundosRestantes = (int)(proximaExecucao - DateTime.Now).TotalSeconds;
+            _segundosRestantes = Math.Max(0, segundosRestantes);
+            AtualizarTempoRestante();
+
+            _cronometro = new System.Timers.Timer(1000); // 1 segundo
+            _cronometro.Elapsed += async (s, e) =>
+            {
+                if (_segundosRestantes > 0)
+                {
+                    _segundosRestantes--;
+                    AtualizarTempoRestante();
+                }
+                else
+                {                    
+                    _cronometro?.Stop();
+                    IniciarCronometro();
+                    await InitiAsync();
+                }
+            };
+            _cronometro.Start();
+        }
+
+        private void AtualizarTempoRestante()
+        {
+            var ts = TimeSpan.FromSeconds(_segundosRestantes);
+            TempoRestante = ts.ToString(@"mm\:ss");
+        }
+
         [RelayCommand]
         public async Task GoToBaixarAsync()
         {
             IsBusy = true;
 
             if (Conexao.CheckConnectivity())
-            {
-                //var appRoot = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.LastIndexOf("\\bin"));
-                //string jsonPath = appRoot + "\\GoogleCred\\idhexmob-bfc45a0f4340.json";
-
-                //var appRoot = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.LastIndexOf("\\bin"));
-                //string jsonPath = appRoot + "\\GoogleCred\\idhexmob-bfc45a0f4340.json";
-                //var credential = GoogleCredential.FromFile(jsonPath);
-                //var bucketName = "idheximages";
-                //using var storageClient = StorageClient.Create(credential);
+            {   
                                 
                 string credentialsFileName = "idhexmob-bfc45a0f4340.json";
                 string localPath = Path.Combine(FileSystem.CacheDirectory, credentialsFileName);                              
@@ -93,7 +122,11 @@ namespace IDHEXMobApp.ViewModels
                         _databaseRepository.DeleteById(item.Id);
                 }
             }
-            await Task.Delay(2000);
+
+            Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO").ToObservableCollection<PedidoResponse>();
+            
+            OnPropertyChanged(nameof(Pedidos));
+
             IsBusy = false;
         }
     }

@@ -7,8 +7,7 @@
     Title="LoginPage"
     x:DataType="viewModels:LoginViewModel"
     BackgroundColor="{StaticResource LightBackground}"
-    NavigationPage.HasNavigationBar="False"
-    Shell.NavBarIsVisible="False">
+    NavigationPage.HasNavigationBar="False">
 
     <ContentPage.Resources>
         <ResourceDictionary>

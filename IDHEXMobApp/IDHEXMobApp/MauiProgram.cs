@@ -14,7 +14,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()                    
             .UseMauiCommunityToolkit()
-            .UseMauiCommunityToolkitCamera()            
+            .UseMauiCommunityToolkitCamera()           
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -26,23 +26,28 @@ public static class MauiProgram
         builder.Logging.AddDebug();
 #endif
 
-        builder.Services.AddHostedService<PedidoService>();
-
+ 
         return builder.Build();
     }
 
     public static MauiAppBuilder RegisterDatabaseAndRepositories(this MauiAppBuilder mauiAppBuilder)
     {
+
+        //mauiAppBuilder.Services.AddHostedService<PedidoService>();
+
         mauiAppBuilder.Services.AddSingleton<LiteDatabase>(
             options =>
             {
                 return new LiteDatabase($"Filename={AppSettings.DatabasePath};Connection=Shared");
             }
         );
+        
 
         mauiAppBuilder.Services.AddTransient<ILoginRepository, LoginRepository>();
         mauiAppBuilder.Services.AddTransient<IPedidoRepository, PedidoRepository>();
         mauiAppBuilder.Services.AddTransient<IDatabaseRepository, DatabaseRepository>();
+
+        mauiAppBuilder.Services.AddSingleton<PedidoService>();           
 
         return mauiAppBuilder;
     }
