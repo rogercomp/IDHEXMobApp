@@ -108,13 +108,32 @@ namespace IDHEXMobApp.ViewModels
 
             PedidosFiltrados.Clear();
             var termo = FiltroPesquisa?.ToLower() ?? "";
+
             var filtrados = string.IsNullOrWhiteSpace(termo)
                 ? Pedidos
                 : Pedidos.Where(x =>
                     (x.NumNotaFiscal.ToString().Contains(termo))
                 );
-            foreach (var item in filtrados)
-                PedidosFiltrados.Add(item);
+
+            if (filtrados.Any())
+            {
+                foreach (var item in filtrados)
+                    PedidosFiltrados.Add(item);
+            }
+            else
+            {
+                var pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO" && p.NumNotaFiscal.ToString() == termo).FirstOrDefault();
+                if (pedidos != null)
+                    PedidosFiltrados.Add(pedidos);
+            }
+
+            //var filtrados = string.IsNullOrWhiteSpace(termo)
+            //    ? Pedidos
+            //    : Pedidos.Where(x =>
+            //        (x.NumNotaFiscal.ToString().Contains(termo))
+            //    );
+            //foreach (var item in filtrados)
+            //    PedidosFiltrados.Add(item);
         }
     }
 }

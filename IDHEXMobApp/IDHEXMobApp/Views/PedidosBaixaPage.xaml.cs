@@ -13,6 +13,13 @@ public partial class PedidosBaixaPage : ContentPage
     protected override async void OnAppearing()
     {
         base.OnAppearing();
+        DeviceDisplay.Current.KeepScreenOn = true;
         await _viewModel.InitiAsync();
+    }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+        DeviceDisplay.Current.KeepScreenOn = false;
     }
 }

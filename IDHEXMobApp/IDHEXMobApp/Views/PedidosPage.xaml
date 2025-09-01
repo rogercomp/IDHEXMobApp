@@ -9,15 +9,14 @@
     x:DataType="viewModel:PedidosViewModel"
     BackgroundColor="{StaticResource White}">
 
-    <ContentPage.Resources>
+    <!--<ContentPage.Resources>
         <Style TargetType="BoxView">
             <Setter Property="Color" Value="Gray" />
             <Setter Property="HeightRequest" Value="1" />
         </Style>
-    </ContentPage.Resources>
+    </ContentPage.Resources>-->
 
-
-    <Grid RowDefinitions="*, 70">       
+    <Grid RowDefinitions="*, 70">
         <VerticalStackLayout Padding="10" Spacing="10">
             <SearchBar
                 x:Name="searchBar"
@@ -40,6 +39,7 @@
                             Margin="0,5,0,0"
                             HeightRequest="125"
                             Style="{StaticResource CardView}">
+
                             <StackLayout
                                 Padding="4"
                                 x:DataType="model:RomaneioResponse"
