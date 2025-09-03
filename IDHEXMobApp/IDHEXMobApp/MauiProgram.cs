@@ -56,8 +56,9 @@ public static class MauiProgram
     {
         mauiAppBuilder.Services.AddTransient<MainPage>();
         mauiAppBuilder.Services.AddTransient<LoginPage>();
-        mauiAppBuilder.Services.AddTransient<PedidosPage>();
+        mauiAppBuilder.Services.AddTransient<PedidosPage>();        
         mauiAppBuilder.Services.AddTransient<NotasPage>();
+        mauiAppBuilder.Services.AddTransient<NotasCleanPage>();
         mauiAppBuilder.Services.AddTransient<CameraPage>();
         mauiAppBuilder.Services.AddTransient<PedidosBaixaPage>();
         mauiAppBuilder.Services.AddTransient<PedidosLimparPage>();
@@ -72,6 +73,7 @@ public static class MauiProgram
         mauiAppBuilder.Services.AddTransient<LoginViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosViewModel>();
         mauiAppBuilder.Services.AddTransient<NotaViewModel>();
+        mauiAppBuilder.Services.AddTransient<NotaCleanViewModel>();
         mauiAppBuilder.Services.AddTransient<CameraViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosBaixaViewModel>();
         mauiAppBuilder.Services.AddTransient<PedidosLimparViewModel>();

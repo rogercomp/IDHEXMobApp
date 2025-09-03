@@ -433,6 +433,14 @@
         <Setter Property="HeightRequest" Value="40" />
         <Setter Property="CornerRadius" Value="20" />
     </Style>
+    <Style x:Key="ButtonOutlineRed" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource Primary  }" />
+        <Setter Property="TextColor" Value="{StaticResource Gray950}" />
+        <Setter Property="BorderColor" Value="Brown" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
     <Style x:Key="CardView" TargetType="Border">
         <Setter Property="Stroke" Value="#DDDDDD" />
         <Setter Property="StrokeThickness" Value="1" />

@@ -77,6 +77,9 @@
 	  <Compile Update="Views\PedidosBaixaPage.xaml.cs">
 	    <DependentUpon>PedidosBaixaPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Views\NotasCleanPage.xaml.cs">
+	    <DependentUpon>NotasCleanPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\Principal.xaml.cs">
 	    <DependentUpon>Principal.xaml</DependentUpon>
 	  </Compile>
@@ -96,6 +99,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PedidosLimparPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\NotasCleanPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PedidosPage.xaml">

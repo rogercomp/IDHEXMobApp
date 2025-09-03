@@ -20,7 +20,10 @@
 
 
     <Grid RowDefinitions="300, *, auto, auto">
-        <Image HeightRequest="150" WidthRequest="150" Source="truck_logo.png" />
+        <Image
+            HeightRequest="150"
+            Source="truck_logo.png"
+            WidthRequest="150" />
 
         <Border
             Grid.Row="1"
@@ -53,9 +56,9 @@
                 <Grid>
                     <Button
                         Command="{Binding LoginCommand}"
-                        FontAttributes="Bold"                        
-                        Text="ENTRAR"
-                        Style="{StaticResource ButtonOutline}">
+                        FontAttributes="Bold"
+                        Style="{StaticResource ButtonOutline}"
+                        Text="ENTRAR">
                         <Button.Triggers>
                             <DataTrigger
                                 Binding="{Binding LoginCommand.IsRunning}"
@@ -64,9 +67,9 @@
                                 <Setter Property="Text" Value="" />
                             </DataTrigger>
                         </Button.Triggers>
-                    </Button>                    
-                    
-                    
+                    </Button>
+
+
                     <ActivityIndicator
                         HorizontalOptions="Center"
                         IsRunning="{Binding LoginCommand.IsRunning}"

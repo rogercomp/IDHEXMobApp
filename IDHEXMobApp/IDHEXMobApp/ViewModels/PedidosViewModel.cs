@@ -118,6 +118,11 @@ namespace IDHEXMobApp.ViewModels
             _databaseRepository.Add(pedido);
         }
 
+
+        [RelayCommand]
+        public async Task GoToPedidosCleanAsync()
+             => await Shell.Current.GoToAsync(nameof(NotasCleanPage));
+
         [RelayCommand]
         public async Task GoToNotas()
             => await Shell.Current.GoToAsync(nameof(NotasPage));
@@ -167,6 +172,8 @@ namespace IDHEXMobApp.ViewModels
               }           
 
             Romaneios = new ObservableCollection<RomaneioResponse>(RomaneiosFiltrados);
+
+            IsBusy = false;
 
             await Task.CompletedTask;
         }

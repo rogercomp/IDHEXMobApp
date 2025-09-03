@@ -10,6 +10,7 @@ namespace IDHEXMobApp.Repositories.Database
         void DeleteById(Guid Id);
         IEnumerable<PedidoResponse> GetAll();
         IEnumerable<PedidoResponse> GetPedidosByNumRomaneioAsync(string numRomaneio);
+        PedidoResponse GetPedidosByNumNotaAsync(string numNota);
         PedidoResponse GetPedidosByRomaneioNotaPedidoEmpresaAsync(string numRomaneio, long numNotaFiscal, long pedidoId, long empresaId);
         void Update(PedidoResponse pedido);
     }

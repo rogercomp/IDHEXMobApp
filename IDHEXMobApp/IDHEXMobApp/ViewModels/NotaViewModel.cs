@@ -106,6 +106,8 @@ namespace IDHEXMobApp.ViewModels
         public void AtualizarFiltroAsync()
         {
 
+            IsBusy = true;
+
             PedidosFiltrados.Clear();
             var termo = FiltroPesquisa?.ToLower() ?? "";
 
@@ -126,6 +128,10 @@ namespace IDHEXMobApp.ViewModels
                 if (pedidos != null)
                     PedidosFiltrados.Add(pedidos);
             }
+
+
+            IsBusy = false;
+
 
             //var filtrados = string.IsNullOrWhiteSpace(termo)
             //    ? Pedidos
