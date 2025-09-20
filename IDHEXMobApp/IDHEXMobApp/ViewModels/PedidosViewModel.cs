@@ -125,7 +125,7 @@ namespace IDHEXMobApp.ViewModels
 
         [RelayCommand]
         public async Task GoToNotas()
-            => await Shell.Current.GoToAsync(nameof(NotasPage));
+            => await Shell.Current.GoToAsync("//NotasPage");
 
         [RelayCommand]
         public async Task GoToEdit(RomaneioResponse romaneio)
@@ -138,7 +138,7 @@ namespace IDHEXMobApp.ViewModels
                 {"Romaneio", romaneio }
             };
 
-            await Shell.Current.GoToAsync(nameof(NotasPage), navigationParams);
+            await Shell.Current.GoToAsync("//NotasPage", navigationParams);
         }
 
         public async Task CarregaRomaneiosAsync()

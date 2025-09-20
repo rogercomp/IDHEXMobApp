@@ -7,8 +7,13 @@
     xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
     Title="Registro Entrega"
+    NavigationPage.HasNavigationBar="False"
     BackgroundColor="{StaticResource White}">
-    
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+
     <ScrollView>
 
         <VerticalStackLayout Spacing="25" VerticalOptions="Center">

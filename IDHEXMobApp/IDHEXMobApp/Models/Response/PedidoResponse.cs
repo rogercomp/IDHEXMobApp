@@ -50,8 +50,9 @@ namespace IDHEXMobApp.Models.Response
             
         }
 
-        public PedidoResponse(long pedidoId, long empresaId, string? numRomaneio, long numNotaFiscal, DateTime? dtImgCanhoto, string? codOcorrencia, string? imgCanhoto)
+        public PedidoResponse(string id, long pedidoId, long empresaId, string? numRomaneio, long numNotaFiscal, DateTime? dtImgCanhoto, string? codOcorrencia, string? imgCanhoto)
         {
+            Id = Guid.Parse(id);
             PedidoId = pedidoId;
             EmpresaId = empresaId;            
             NumRomaneio = numRomaneio;

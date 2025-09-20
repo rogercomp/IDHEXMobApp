@@ -1,6 +1,7 @@
 ﻿using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
+using static Google.Cloud.Firestore.V1.StructuredAggregationQuery.Types.Aggregation.Types;
 
 
 
@@ -19,6 +20,7 @@ namespace IDHEXMobApp.ViewModels
 
                 if (value != null)
                 {
+                    Id = value.Id.ToString();
                     PedidoId = value.PedidoId.ToString();
                     EmpresaId = value.EmpresaId.ToString();
                     NumRomaneio = value.NumRomaneio;
@@ -31,6 +33,8 @@ namespace IDHEXMobApp.ViewModels
             }
         }
 
+        [ObservableProperty]
+        string id;
 
         [ObservableProperty]
         string pedidoId;
@@ -84,6 +88,7 @@ namespace IDHEXMobApp.ViewModels
         {
             var pedidoResponse = new PedidoResponse
                 (
+                    Id,
                     long.Parse(PedidoId),
                     long.Parse(EmpresaId),
                     NumRomaneio,
@@ -127,7 +132,15 @@ namespace IDHEXMobApp.ViewModels
                 {"Romaneio", romaneio }
             };
 
-            await Shell.Current.GoToAsync(nameof(NotasPage), navigationParams);            
-        }        
+            //var pageRemovida = await Shell.Current.Navigation.PopAsync();           
+            //remover a página corrente da pilha de navegação
+            //if (pageRemovida != null)
+               // Shell.Current.Navigation.RemovePage(pageRemovida);
+            
+            await Shell.Current.GoToAsync("//PedidosPage");
+
+            //await Shell.Current.Navigation.RemovePage(page);
+
+        }
     }
 }

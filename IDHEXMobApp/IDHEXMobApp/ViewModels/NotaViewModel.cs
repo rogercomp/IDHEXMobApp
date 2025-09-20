@@ -1,12 +1,21 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
+using Google.Protobuf.Collections;
 using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories.Database;
 
 namespace IDHEXMobApp.ViewModels
 {
     [QueryProperty(nameof(Romaneio), nameof(Romaneio))]
-    public partial class NotaViewModel: BaseViewModel
+    public partial class NotaViewModel : BaseViewModel
     {
+        //// Variáveis de controle de paginação
+        private int _startIndex = 0;
+        private const int PageSize = 1;
+        //private int _pageNumber = 0;        
+        //private const int PageSize = 5;
+        // Usaremos esta variável para saber se chegamos ao final da fonte de dados
+        private bool _hasMoreData = true;
+
         private RomaneioResponse _romaneio;
         public RomaneioResponse Romaneio
         {
@@ -22,7 +31,7 @@ namespace IDHEXMobApp.ViewModels
                     DataPrevisaoSaida = value.DataPrevisaoSaida;
                 }
             }
-        }       
+        }
 
         [ObservableProperty]
         string numRomaneio;
@@ -36,28 +45,31 @@ namespace IDHEXMobApp.ViewModels
         [ObservableProperty]
         string filtroPesquisa;
 
+        [ObservableProperty]
+        private bool isRefreshing;
 
-        private readonly IDatabaseRepository _databaseRepository;        
+
+        private readonly IDatabaseRepository _databaseRepository;
         public ObservableCollection<PedidoResponse> Pedidos { get; set; } = new ObservableCollection<PedidoResponse>();
         public ObservableCollection<PedidoResponse> PedidosFiltrados { get; set; } = new ObservableCollection<PedidoResponse>();
         public NotaViewModel(IDatabaseRepository databaseRepository)
         {
-            _databaseRepository = databaseRepository;            
+            _databaseRepository = databaseRepository;
         }
-        
+
         internal async Task InitiAsync()
         {
             IsBusy = true;
 
             await Task.Delay(1000);
 
-            if(NumRomaneio != null)
+            if (NumRomaneio != null)
             {
                 var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
                 PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
             }
             else
-                PedidosFiltrados = _databaseRepository.GetAll().Where(p=> p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();                        
+                PedidosFiltrados = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();
 
             OnPropertyChanged(nameof(PedidosFiltrados));
 
@@ -129,10 +141,7 @@ namespace IDHEXMobApp.ViewModels
                     PedidosFiltrados.Add(pedidos);
             }
 
-
             IsBusy = false;
-
-
             //var filtrados = string.IsNullOrWhiteSpace(termo)
             //    ? Pedidos
             //    : Pedidos.Where(x =>
@@ -140,6 +149,6 @@ namespace IDHEXMobApp.ViewModels
             //    );
             //foreach (var item in filtrados)
             //    PedidosFiltrados.Add(item);
-        }
+        }        
     }
 }

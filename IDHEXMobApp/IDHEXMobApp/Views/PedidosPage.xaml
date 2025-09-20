@@ -9,6 +9,10 @@
     x:DataType="viewModel:PedidosViewModel"
     BackgroundColor="{StaticResource White}">
 
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsVisible="False" />
+    </Shell.BackButtonBehavior>
+    
     <!--<ContentPage.Resources>
         <Style TargetType="BoxView">
             <Setter Property="Color" Value="Gray" />

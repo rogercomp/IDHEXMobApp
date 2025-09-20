@@ -6,6 +6,7 @@ public partial class CameraPage : ContentPage
 {
     private CameraViewModel _viewModel;
     public List<TipoOcorrencia> TipoOcorrencias { get; set; }
+       
 
     public CameraPage(CameraViewModel viewModel)
 	{

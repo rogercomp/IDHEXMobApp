@@ -32,14 +32,14 @@
                 Style="{StaticResource ButtonOutline}"
                 VerticalOptions="Start" />
 
-            <Button
+            <!--<Button
                 Grid.Row="1"
                 Margin="10"                
                 Command="{Binding GoToBaixarCommand}"
                 FontAttributes="Bold"
                 Text="PENDENTES ENVIO"          
                 Style="{StaticResource ButtonOutline}"
-                VerticalOptions="Start" />
+                VerticalOptions="Start" />-->
 
             <Button
                 Grid.Row="1"

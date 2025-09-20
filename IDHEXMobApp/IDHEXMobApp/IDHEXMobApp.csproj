@@ -24,7 +24,7 @@
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
-		
+
 		<!-- To develop, package, and publish an app to the Microsoft Store, see: https://aka.ms/MauiTemplateUnpackaged -->
 		<WindowsPackageType>None</WindowsPackageType>
 
@@ -62,11 +62,11 @@
 		<PackageReference Include="Google.Cloud.Firestore" Version="3.10.0" />
 		<PackageReference Include="Google.Cloud.Storage.V1" Version="4.13.0" />
 		<PackageReference Include="LiteDB" Version="5.0.21" />
-		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.8" />
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.100" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.8" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.9" />
+		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.110" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.9" />
 	</ItemGroup>
 
 	<ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
@@ -74,54 +74,54 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\PedidosBaixaPage.xaml.cs">
-	    <DependentUpon>PedidosBaixaPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\NotasCleanPage.xaml.cs">
-	    <DependentUpon>NotasCleanPage.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\Principal.xaml.cs">
-	    <DependentUpon>Principal.xaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Views\PedidosBaixaPage.xaml.cs">
+			<DependentUpon>PedidosBaixaPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\NotasCleanPage.xaml.cs">
+			<DependentUpon>NotasCleanPage.xaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\Principal.xaml.cs">
+			<DependentUpon>Principal.xaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\CameraPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\LoginPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NotasPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PedidosBaixaPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PedidosLimparPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\NotasCleanPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\PedidosPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Views\CameraPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\LoginPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\NotasPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PedidosBaixaPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PedidosLimparPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\NotasCleanPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Views\PedidosPage.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="GoogleCred\" />
+		<Folder Include="GoogleCred\" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Include="idhexmob-bfc45a0f4340.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </MauiAsset>
+		<MauiAsset Include="idhexmob-bfc45a0f4340.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</MauiAsset>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiAsset Include="Resources\Raw\idhexmob-bfc45a0f4340.json">	    
-	  </MauiAsset>
+		<MauiAsset Include="Resources\Raw\idhexmob-bfc45a0f4340.json">
+		</MauiAsset>
 	</ItemGroup>
 
 	<PropertyGroup Label="MauiAppAccelerator">
@@ -132,20 +132,18 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net9.0-android|AnyCPU'">
-	  <DebugSymbols>True</DebugSymbols>
-	  <AndroidKeyStore>False</AndroidKeyStore>
-	  <AndroidPackageFormat>apk</AndroidPackageFormat>
-	  <RunAOTCompilation>true</RunAOTCompilation>	  
-	  <AndroidSigningStorePass></AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass></AndroidSigningKeyPass>	  
+		<DebugSymbols>false</DebugSymbols>
+		<DebugType>none</DebugType>
+		<AndroidKeyStore></AndroidKeyStore>
+		<AndroidPackageFormat>apk</AndroidPackageFormat>
+		<RunAOTCompilation>true</RunAOTCompilation>		
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net9.0-android|AnyCPU'">
-	  <AndroidKeyStore>False</AndroidKeyStore>
-	  <AndroidSigningStorePass></AndroidSigningStorePass>
-	  <AndroidSigningKeyAlias></AndroidSigningKeyAlias>
-	  <AndroidSigningKeyPass></AndroidSigningKeyPass>
-	</PropertyGroup>
+		<AndroidKeyStore>False</AndroidKeyStore>
+		<AndroidSigningStorePass></AndroidSigningStorePass>
+		<AndroidSigningKeyAlias></AndroidSigningKeyAlias>
+		<AndroidSigningKeyPass></AndroidSigningKeyPass>
+	</PropertyGroup>	
 
 </Project>

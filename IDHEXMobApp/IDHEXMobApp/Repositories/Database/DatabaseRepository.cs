@@ -1,4 +1,5 @@
-﻿using IDHEXMobApp.Models.Response;
+﻿
+using IDHEXMobApp.Models.Response;
 using LiteDB;
 
 namespace IDHEXMobApp.Repositories.Database
@@ -72,21 +73,43 @@ namespace IDHEXMobApp.Repositories.Database
 
         public void Update(PedidoResponse pedido)
         {
-            var itemPedido = _database
-                .GetCollection<PedidoResponse>(collectionName)
-                .Query()
-                .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
-                .FirstOrDefault();
+            //var connectionString = "Filename=database.db; Connection=Shared;";
+            //using (var db = new LiteDatabase(connectionString))
+            //{
+                // Obtém a coleção de pedidos
+                var pedidos = _database.GetCollection<PedidoResponse>(collectionName);
 
-            if (itemPedido != null)
-            {
-                itemPedido.DtImgCanhoto = DateTime.Now;
-                itemPedido.ImgCanhoto = pedido.ImgCanhoto;
-                itemPedido.CodOcorrencia = pedido.CodOcorrencia;
-            }
+                // 1. Encontra um pedido pelo ID
+                var ped = pedidos.FindById(pedido.Id);
 
-            _database.GetCollection<PedidoResponse>(collectionName)
-                     .Update(itemPedido!);
+                if (ped != null)
+                {
+                    // 2. Modifica vários campos
+                    ped.DtImgCanhoto = DateTime.Now;
+                    ped.ImgCanhoto = pedido.ImgCanhoto;
+                    ped.CodOcorrencia = pedido.CodOcorrencia;
+
+                    // 3. Atualiza o documento completo no banco de dados
+                    pedidos.Update(ped);
+                }
+            //}
+
+
+            //var itemPedido = _database
+            //    .GetCollection<PedidoResponse>(collectionName)
+            //    .Query()
+            //    .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
+            //    .FirstOrDefault();
+
+            //if (itemPedido != null)
+            //{
+            //    itemPedido.DtImgCanhoto = DateTime.Now;
+            //    itemPedido.ImgCanhoto = pedido.ImgCanhoto;
+            //    itemPedido.CodOcorrencia = pedido.CodOcorrencia;                
+            //}
+
+            //_database.GetCollection<PedidoResponse>(collectionName)
+            //         .Update(itemPedido!);
         }
 
         //public void Baixar(PedidoResponse pedido)

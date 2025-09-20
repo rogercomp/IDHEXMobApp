@@ -86,7 +86,7 @@ public partial class LoginViewModel: BaseViewModel
 
             Preferences.Set("motoristaId", result.motoristaId);
 
-            await Shell.Current.GoToAsync(nameof(PrincipalPage));
+            await Shell.Current.GoToAsync("//PrincipalPage");
 
         }
         catch(Exception ex)
