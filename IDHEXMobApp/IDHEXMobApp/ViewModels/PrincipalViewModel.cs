@@ -24,5 +24,5 @@ public partial class PrincipalViewModel: BaseViewModel
 
     [RelayCommand]
     public async Task GoToLimparAsync()
-        => await Shell.Current.GoToAsync("//PedidosLimparPage");
+        => await Shell.Current.GoToAsync(nameof(PedidosLimparPage));
 }
