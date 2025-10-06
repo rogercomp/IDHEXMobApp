@@ -93,7 +93,7 @@ namespace IDHEXMobApp.ViewModels
                     long.Parse(EmpresaId),
                     NumRomaneio,
                     long.Parse(NumNotaFiscal),
-                    DateTime.Now,
+                    DtImgCanhoto,
                     CodOcorrencia,
                     ImgCanhoto
                 );

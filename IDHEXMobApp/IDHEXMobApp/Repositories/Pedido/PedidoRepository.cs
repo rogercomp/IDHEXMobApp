@@ -2,6 +2,8 @@
 using Flurl.Http;
 using IDHEXMobApp.Helpers;
 using IDHEXMobApp.Models.Response;
+using System.Net;
+using System.Text.Encodings.Web;
 
 namespace IDHEXMobApp.Repositories
 {
@@ -31,12 +33,16 @@ namespace IDHEXMobApp.Repositories
             return response.ResponseMessage.IsSuccessStatusCode;
         }
 
-        public async Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string ocorrenciaId, string imgCanhoto)
+        public async Task<bool> AtualizaPedidoAsync(long pedidoId, long empresaId, string ocorrenciaId, string imgCanhoto, string? dtChegada)
         {
             var data = new Object();
 
+            //string? dtChegadaParam = dtChegada == null ? null : $"?dtChegada={dtChegada}";
+
+            string chamada = $"/IntegraMAUI/{pedidoId}/{empresaId}/{ocorrenciaId}/{imgCanhoto}"; //{dtChegadaParam}";
+
             var response = await Constantes.BaseUrl
-               .AppendPathSegment($"/IntegraMAUI/{pedidoId}/{empresaId}/{ocorrenciaId}/{imgCanhoto}")
+               .AppendPathSegment(WebUtility.HtmlEncode(chamada))
                .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
                .PutJsonAsync(data);
 

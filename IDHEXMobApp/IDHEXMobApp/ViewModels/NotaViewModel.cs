@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Core.Extensions;
-using Google.Protobuf.Collections;
 using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories.Database;
 
@@ -61,15 +60,30 @@ namespace IDHEXMobApp.ViewModels
         {
             IsBusy = true;
 
-            await Task.Delay(1000);
-
             if (NumRomaneio != null)
             {
-                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
+                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!);
                 PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
             }
             else
-                PedidosFiltrados = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();
+            {
+                var pedidosGrupo = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>();
+
+                string NumRomaneio = "";
+                foreach (var item in pedidosGrupo)
+                {
+                    if (NumRomaneio != item.NumRomaneio)
+                    {
+                        NumRomaneio = item.NumRomaneio!;
+                        var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO").ToObservableCollection<PedidoResponse>(); ;
+                        PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
 
             OnPropertyChanged(nameof(PedidosFiltrados));
 
@@ -149,6 +163,6 @@ namespace IDHEXMobApp.ViewModels
             //    );
             //foreach (var item in filtrados)
             //    PedidosFiltrados.Add(item);
-        }        
+        }
     }
 }

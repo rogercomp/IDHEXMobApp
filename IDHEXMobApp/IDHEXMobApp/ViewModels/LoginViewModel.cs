@@ -1,12 +1,16 @@
 ﻿using IDHEXMobApp.Contratos;
+using IDHEXMobApp.Helpers;
 using IDHEXMobApp.Models.Request;
 using IDHEXMobApp.Repositories;
+using Microsoft.VisualBasic;
 using System.Text;
 
 namespace IDHEXMobApp.ViewModels;
 
-public partial class LoginViewModel: BaseViewModel
+public partial class LoginViewModel : BaseViewModel
 {
+    [ObservableProperty]
+    private string versaoApp;
 
     [ObservableProperty]
     private string name;
@@ -15,7 +19,7 @@ public partial class LoginViewModel: BaseViewModel
     private string password;
 
     [ObservableProperty]
-    private string sigla;    
+    private string sigla;
 
     private readonly ILoginRepository _loginRepository;
 
@@ -23,10 +27,15 @@ public partial class LoginViewModel: BaseViewModel
     {
         _loginRepository = repository;
     }
-    
+
+    internal async Task InitiAsync()
+    {
+        VersaoApp = $"{Constantes.versaoApp}";
+    }
+
     [RelayCommand]
     public async Task LoginAsync()
-    {        
+    {
         try
         {
             if (String.IsNullOrWhiteSpace(Sigla))
@@ -49,13 +58,13 @@ public partial class LoginViewModel: BaseViewModel
 
             var loginRequest = new LoginRequest(Name, Password, Sigla);
 
-            
+
 
             var contract = new LoginContract(loginRequest);
 
             if (!contract.IsValid)
             {
-                var messages = contract.Notifications.Select(x=> x.Message);
+                var messages = contract.Notifications.Select(x => x.Message);
                 var sb = new StringBuilder();
                 foreach (var message in messages)
                     sb.AppendLine($"{message}\n");
@@ -75,7 +84,7 @@ public partial class LoginViewModel: BaseViewModel
 
                 //await toast.Show(cancellation.Token);
 
-                await Shell.Current.DisplayAlert("Atenção", $"{ result.message} - Verifique a conexão/usuário/senha!", "OK");
+                await Shell.Current.DisplayAlert("Atenção", $"{result.message} - Verifique a conexão/usuário/senha!", "OK");
 
                 return;
             }
@@ -89,13 +98,13 @@ public partial class LoginViewModel: BaseViewModel
             await Shell.Current.GoToAsync("//PrincipalPage");
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
         }
         finally
         {
-         
+
         }
     }
 

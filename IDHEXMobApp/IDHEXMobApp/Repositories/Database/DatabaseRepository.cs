@@ -16,16 +16,28 @@ namespace IDHEXMobApp.Repositories.Database
         public void Add(PedidoResponse pedido)
         {
             var col = _database.GetCollection<PedidoResponse>(collectionName);
+            
+            var item = GetPedidosByRomaneioNotaPedidoEmpresaAsync(pedido.NumRomaneio!, pedido.NumNotaFiscal, pedido.PedidoId, pedido.EmpresaId);
+            //var item = GetPedidosByNumRomaneioAsync(pedido.NumRomaneio!);
 
-            pedido.Id = Guid.NewGuid();
-
-            col.Insert(pedido);
+            if (item == null)
+            {
+                pedido.Id = Guid.NewGuid();
+                col.Insert(pedido);
+            }
         }
 
         public void DeleteAll(PedidoResponse pedido)
         {
             //var col = _database.GetCollection<PedidoResponse>(collectionName);
-            _database.DropCollection("pedidos");
+            //_database.DropCollection("pedidos");
+
+            var collection = _database.GetCollection<PedidoResponse>(collectionName);
+
+            // Delete all documents in the collection
+            // The predicate "1=1" is a common way to match all documents in LiteDB queries.
+            var deletedCount = collection.DeleteMany("1=1");
+
             //col.DeleteAll();
         }
         public void DeleteById(Guid Id)
@@ -48,7 +60,7 @@ namespace IDHEXMobApp.Repositories.Database
             return _database
                 .GetCollection<PedidoResponse>(collectionName)
                 .Query()
-                .Where(p => p.NumRomaneio == numRomaneio)
+                .Where(p => p.NumRomaneio == numRomaneio && p.Baixado == "NÃO")
                 .OrderByDescending(a => a.NumNotaFiscal)
                 .ToList();
         }
@@ -85,43 +97,13 @@ namespace IDHEXMobApp.Repositories.Database
                 if (ped != null)
                 {
                     // 2. Modifica vários campos
-                    ped.DtImgCanhoto = DateTime.Now;
+                    ped.DtImgCanhoto = pedido.DtImgCanhoto ?? DateTime.Now;
                     ped.ImgCanhoto = pedido.ImgCanhoto;
                     ped.CodOcorrencia = pedido.CodOcorrencia;
 
                     // 3. Atualiza o documento completo no banco de dados
                     pedidos.Update(ped);
-                }
-            //}
-
-
-            //var itemPedido = _database
-            //    .GetCollection<PedidoResponse>(collectionName)
-            //    .Query()
-            //    .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
-            //    .FirstOrDefault();
-
-            //if (itemPedido != null)
-            //{
-            //    itemPedido.DtImgCanhoto = DateTime.Now;
-            //    itemPedido.ImgCanhoto = pedido.ImgCanhoto;
-            //    itemPedido.CodOcorrencia = pedido.CodOcorrencia;                
-            //}
-
-            //_database.GetCollection<PedidoResponse>(collectionName)
-            //         .Update(itemPedido!);
-        }
-
-        //public void Baixar(PedidoResponse pedido)
-        //    {
-        //    var itemPedido = _database
-        //        .GetCollection<PedidoResponse>(collectionName)
-        //        .Query()
-        //        .Where(p => p.PedidoId == pedido.PedidoId && p.EmpresaId == pedido.EmpresaId && p.NumRomaneio == pedido.NumRomaneio && p.NumNotaFiscal == pedido.NumNotaFiscal)
-        //        .FirstOrDefault();         
-            
-        //    _database.GetCollection<PedidoResponse>(collectionName)
-        //             .Delete(itemPedido.Id);
-        //}
+                }                           
+        }        
     }
 }

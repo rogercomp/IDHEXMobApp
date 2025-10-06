@@ -11,7 +11,7 @@ namespace IDHEXMobApp.ViewModels
     public partial class PedidosBaixaViewModel : BaseViewModel
     {
         private readonly IPedidoRepository _pedidoRepository;
-        private readonly IDatabaseRepository _databaseRepository;        
+        private readonly IDatabaseRepository _databaseRepository;
         private int _segundosRestantes;
         private System.Timers.Timer? _cronometro;
 
@@ -33,9 +33,9 @@ namespace IDHEXMobApp.ViewModels
         internal async Task InitiAsync()
         {
             IsBusy = true;
-            
+
             int contador = 0;
-            Pedidos =  _databaseRepository.GetAll().Where(p=> p.Baixado == "SIM").ToObservableCollection<PedidoResponse>();
+            Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM").ToObservableCollection<PedidoResponse>();
 
             int Total = Pedidos.Count;
 
@@ -43,12 +43,12 @@ namespace IDHEXMobApp.ViewModels
             {
                 contador++;
                 await Task.Delay(1000);
-                Pendentes = $"Pendentes Envio: {Total}";            
+                Pendentes = $"Pendentes Envio: {Total}";
             }
 
             OnPropertyChanged(nameof(Pedidos));
 
-            IsBusy = false;         
+            IsBusy = false;
         }
 
         private void IniciarCronometro()
@@ -68,7 +68,7 @@ namespace IDHEXMobApp.ViewModels
                     AtualizarTempoRestante();
                 }
                 else
-                {                    
+                {
                     _cronometro?.Stop();
                     IniciarCronometro();
                     await InitiAsync();
@@ -88,44 +88,52 @@ namespace IDHEXMobApp.ViewModels
         {
             IsBusy = true;
 
-            if (Conexao.CheckConnectivity())
-            {   
-                                
-                string credentialsFileName = "idhexmob-bfc45a0f4340.json";
-                string localPath = Path.Combine(FileSystem.CacheDirectory, credentialsFileName);                              
-
-                if (!File.Exists(localPath))
+            try
+            {
+                if (Conexao.CheckConnectivity())
                 {
-                    using var json = await FileSystem.OpenAppPackageFileAsync(credentialsFileName);
-                    using var dest = File.Create(localPath);
-                    await json.CopyToAsync(dest);
+
+                    string credentialsFileName = "idhexmob-bfc45a0f4340.json";
+                    string localPath = Path.Combine(FileSystem.CacheDirectory, credentialsFileName);
+
+                    if (!File.Exists(localPath))
+                    {
+                        using var json = await FileSystem.OpenAppPackageFileAsync(credentialsFileName);
+                        using var dest = File.Create(localPath);
+                        await json.CopyToAsync(dest);
+                    }
+
+                    var credential = GoogleCredential.FromFile(localPath);
+                    using var storageClient = StorageClient.Create(credential);
+
+                    FileStream imageStream = null!;
+                    var bucketName = "idheximages";
+
+                    Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO").ToObservableCollection<PedidoResponse>();
+                    foreach (var item in Pedidos)
+                    {
+                        if (!String.IsNullOrEmpty(item.ImgCanhoto))
+                            imageStream = File.OpenRead(item.ImgCanhoto!);
+
+                        var objectName = $"{Guid.NewGuid()}.jpg";
+                        await storageClient.UploadObjectAsync(bucketName, objectName, "image/jpeg", imageStream);
+
+                        item.ImgCanhoto = $"{objectName}";
+                        bool ok = await _pedidoRepository.AtualizaPedidoAsync(item.PedidoId, item.EmpresaId, item.CodOcorrencia!, item.ImgCanhoto!, item.DtImgCanhoto!.Value.ToString("yyyy-MM-dd HH:mm:ss"));
+                        if (ok)
+                            _databaseRepository.DeleteById(item.Id);
+                    }
                 }
-
-                var credential = GoogleCredential.FromFile(localPath);
-                using var storageClient = StorageClient.Create(credential);
-
-                FileStream imageStream = null!;
-                var bucketName = "idheximages";
 
                 Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO").ToObservableCollection<PedidoResponse>();
-                foreach (var item in Pedidos)
-                {
-                    if (!String.IsNullOrEmpty(item.ImgCanhoto))
-                        imageStream = File.OpenRead(item.ImgCanhoto!);
 
-                    var objectName = $"{Guid.NewGuid()}.jpg";                    
-                    await storageClient.UploadObjectAsync(bucketName, objectName, "image/jpeg", imageStream);
+                OnPropertyChanged(nameof(Pedidos));
 
-                    item.ImgCanhoto = $"{objectName}";
-                    bool ok = await _pedidoRepository.AtualizaPedidoAsync(item.PedidoId, item.EmpresaId, item.CodOcorrencia!, item.ImgCanhoto!);
-                    if (ok)
-                        _databaseRepository.DeleteById(item.Id);
-                }
             }
-
-            Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO").ToObservableCollection<PedidoResponse>();
-            
-            OnPropertyChanged(nameof(Pedidos));
+            catch (Exception ex )
+            {
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message}", "OK");
+            }
 
             IsBusy = false;
         }

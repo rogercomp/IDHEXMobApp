@@ -47,7 +47,7 @@ namespace IDHEXMobApp.Models.Response
 
         public PedidoResponse()
         {
-            
+
         }
 
         public PedidoResponse(string id, long pedidoId, long empresaId, string? numRomaneio, long numNotaFiscal, DateTime? dtImgCanhoto, string? codOcorrencia, string? imgCanhoto)

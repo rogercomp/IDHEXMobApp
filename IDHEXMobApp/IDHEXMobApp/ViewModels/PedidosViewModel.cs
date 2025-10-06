@@ -4,12 +4,12 @@ using IDHEXMobApp.Repositories.Database;
 
 namespace IDHEXMobApp.ViewModels
 {
-    
+
     public partial class PedidosViewModel : BaseViewModel
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IDatabaseRepository _databaseRepository;
-        
+
         [ObservableProperty]
         private string baixados = "Entregues: 0";
         [ObservableProperty]
@@ -32,62 +32,74 @@ namespace IDHEXMobApp.ViewModels
         {
             IsBusy = true;
 
-            //_databaseRepository.Delete(new PedidoResponse());
-
-            var pedidos = await _pedidoRepository.GetPedidosAsync();
-
-            int Total = pedidos.Count();
-
-            if (Total > 0)
+            try
             {
-
-                int contador = 0;
-
                 //_databaseRepository.Delete(new PedidoResponse());
+                var pedidos = await _pedidoRepository.GetPedidosAsync();               
+                int Total = pedidos.Count();
 
-                foreach (var pedido in pedidos)
+                if (Total > 0)
                 {
-                    var existingPedido = false;// await _databaseRepository.GetPedidoByNumRomaneioAsync(pedido.NumRomaneio!);
-
-                    if (!existingPedido)
+                    int contador = 0;
+                    //_databaseRepository.Delete(new PedidoResponse());                    
+                    
+                    foreach (var pedido in pedidos)
                     {
-                        contador++;
-                        await Task.Delay(1000);
-                        Sincronizados = $"Sinc: {contador}/{Total}";
-                        SaveOrderInDatabase(pedido);
-                        bool isSyncronized = await _pedidoRepository.AtualizaSincronismoAsync(pedido.PedidoId, pedido.EmpresaId);
-                        if (!isSyncronized)
+                        var existingRomaneio = _databaseRepository.GetPedidosByNumRomaneioAsync(pedido.NumRomaneio!);
+
+                        if (existingRomaneio.Count() > 0)
                         {
-                            await Shell.Current.DisplayAlert("Erro", "Erro ao sincronizar pedidos.", "OK");
-                            return;
+                            // Pedido já existe, processar proximo
+                            continue;
+                        }
+                        else
+                        {
+                            var itens = pedidos.Where(p => p.NumRomaneio == pedido.NumRomaneio).ToList();
+
+                            foreach (var item in itens)
+                            {
+                                contador++;
+                                await Task.Delay(100);
+                                Sincronizados = $"Sincronizado(s): {contador}/{Total}";
+                                SaveOrderInDatabase(item);
+                            }
+                          
+                            //bool isSyncronized = await _pedidoRepository.AtualizaSincronismoAsync(pedido.PedidoId, pedido.EmpresaId);
+                            //await Shell.Current.DisplayAlert("Erro", "Erro ao sincronizar pedidos.", "OK");
+                            //return;
                         }
                     }
-                }
 
-                var resultado = (from p in pedidos.Where(p=> p.Baixado == "NÃO")
-                                 group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g                                 
-                                 select new RomaneioResponse
-                                 {
-                                     NumRomaneio = g.Key.NumRomaneio,
-                                     TotalNotas = g.Count(),
-                                     DataPrevisaoSaida = g.Key.DataPrevisaoSaida
-                                 }).ToList();
+                    var database = _databaseRepository.GetAll();
 
-                RomaneiosFiltrados.Clear();
+                    var resultado = (from p in database.Where(p => p.ImgCanhoto == null)
+                                     group p by new { p.NumRomaneio } into g
+                                     select new RomaneioResponse
+                                     {
+                                         NumRomaneio = g.Key.NumRomaneio,
+                                         TotalNotas = g.Count()                                         
+                                     }).ToList();
 
-                foreach (var item in resultado)
-                {
-                    RomaneiosFiltrados.Add(new RomaneioResponse
+                    RomaneiosFiltrados.Clear();
+
+                    foreach (var item in resultado)
                     {
-                        NumRomaneio = item.NumRomaneio!,
-                        TotalNotas = item.TotalNotas,
-                        DataPrevisaoSaida = item.DataPrevisaoSaida
-                    });
+                        RomaneiosFiltrados.Add(new RomaneioResponse
+                        {
+                            NumRomaneio = item.NumRomaneio!,
+                            TotalNotas = item.TotalNotas
+                        });
+                    }
+                }
+                else
+                {
+                    await CarregaRomaneiosAsync();
                 }
             }
-            else
+            catch (Exception)
             {
-                await CarregaRomaneiosAsync();
+
+                throw;
             }
 
             IsBusy = false;
@@ -125,7 +137,9 @@ namespace IDHEXMobApp.ViewModels
 
         [RelayCommand]
         public async Task GoToNotas()
-            => await Shell.Current.GoToAsync("//NotasPage");
+        {            
+            await Shell.Current.GoToAsync("//NotasPage");
+        }
 
         [RelayCommand]
         public async Task GoToEdit(RomaneioResponse romaneio)
@@ -147,29 +161,29 @@ namespace IDHEXMobApp.ViewModels
 
             //_databaseRepository.Delete(new PedidoResponse());
 
-              var itens = _databaseRepository.GetAll();
+            var itens = _databaseRepository.GetAll();
 
 
-              var resultado = (from p in itens.Where(p => p.Baixado == "NÃO")
-                               group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
-                               select new RomaneioResponse
-                               {
-                                   NumRomaneio = g.Key.NumRomaneio,
-                                   TotalNotas = g.Count(),
-                                   DataPrevisaoSaida = g.Key.DataPrevisaoSaida
-                               }).ToList();
+            var resultado = (from p in itens.Where(p => p.Baixado == "NÃO")
+                             group p by new { p.NumRomaneio, p.DataPrevisaoSaida } into g
+                             select new RomaneioResponse
+                             {
+                                 NumRomaneio = g.Key.NumRomaneio,
+                                 TotalNotas = g.Count(),
+                                 DataPrevisaoSaida = g.Key.DataPrevisaoSaida
+                             }).ToList();
 
             RomaneiosFiltrados.Clear();
 
-              foreach (var item in resultado)
-              {
+            foreach (var item in resultado)
+            {
                 RomaneiosFiltrados.Add(new RomaneioResponse
-                  {
-                      NumRomaneio = item.NumRomaneio!,
-                      TotalNotas = item.TotalNotas,
-                      DataPrevisaoSaida = item.DataPrevisaoSaida
-                  });
-              }           
+                {
+                    NumRomaneio = item.NumRomaneio!,
+                    TotalNotas = item.TotalNotas,
+                    DataPrevisaoSaida = item.DataPrevisaoSaida
+                });
+            }
 
             Romaneios = new ObservableCollection<RomaneioResponse>(RomaneiosFiltrados);
 
@@ -180,13 +194,13 @@ namespace IDHEXMobApp.ViewModels
 
         public void AtualizarFiltroAsync()
         {
-         
+
             RomaneiosFiltrados.Clear();
             var termo = FiltroPesquisa?.ToLower() ?? "";
             var filtrados = string.IsNullOrWhiteSpace(termo)
                 ? Romaneios
                 : Romaneios.Where(x =>
-                    (x.NumRomaneio?.Contains(termo) ?? false)         
+                    (x.NumRomaneio?.Contains(termo) ?? false)
                 );
             foreach (var item in filtrados)
                 RomaneiosFiltrados.Add(item);

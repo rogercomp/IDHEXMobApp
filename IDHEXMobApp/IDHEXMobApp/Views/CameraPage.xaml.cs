@@ -1,3 +1,4 @@
+using Flurl.Util;
 using IDHEXMobApp.Models.Ocorrencia;
 
 namespace IDHEXMobApp.Views;
@@ -66,6 +67,15 @@ public partial class CameraPage : ContentPage
         await _viewModel.InitiAsync();        
     }
 
+    // Método que será chamado quando uma data for selecionada no DatePicker
+    private void OnDateSelected(object sender, DateChangedEventArgs e)
+    {
+        // Obtém o valor da data a partir do evento
+        var novaData = e.NewDate;
+        _viewModel.DtImgCanhoto = DateTime.Parse(novaData.ToString("yyyy-MM-dd") + " " + DateTime.Now.ToString("HH:mm:ss"));
+
+    }
+
     private async void OnTakePhotoClicked(object sender, EventArgs e)
     {
         //var options = new StoreCameraMediaOptions { CompressionQuality = selectedCompressionQuality };
@@ -105,14 +115,5 @@ public partial class CameraPage : ContentPage
         {
             await DisplayAlert("Erro", "Foto capturada não é suportada nesse disopositivo", "OK");
         }
-    }
-
-    public static ImageSource Base64ToImageSource(string base64)
-    {
-        if (string.IsNullOrEmpty(base64))
-            return null;
-
-        byte[] imageBytes = Convert.FromBase64String(base64);
-        return ImageSource.FromStream(() => new MemoryStream(imageBytes));
-    }
+    }  
 }

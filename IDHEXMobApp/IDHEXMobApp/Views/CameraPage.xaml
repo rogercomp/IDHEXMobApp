@@ -22,6 +22,11 @@
                 <Picker
                     x:Name="EventPicker"                    
                     SelectedIndexChanged="OnEventIndexChanged" />
+                
+                <Label Text="Selecione a data:" />                
+                <DatePicker x:Name="dataPicker"
+                    Format="dd/MM/yyyy"
+                    DateSelected="OnDateSelected" />
 
             </StackLayout>
 
