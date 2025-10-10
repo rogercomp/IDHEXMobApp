@@ -12,7 +12,7 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" />
     </Shell.BackButtonBehavior>
-    
+
     <!--<ContentPage.Resources>
         <Style TargetType="BoxView">
             <Setter Property="Color" Value="Gray" />
@@ -45,7 +45,6 @@
                     EmptyView="Nenhum item encontrado"
                     IsGrouped="False"
                     ItemsSource="{Binding RomaneiosFiltrados}">
-
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border
@@ -87,6 +86,16 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
+            <ActivityIndicator
+                Grid.RowSpan="2"
+                Grid.ColumnSpan="2"
+                HorizontalOptions="Center"
+                IsEnabled="{Binding IsBusy}"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                ToolTipProperties.Text="Aguarde..."
+                VerticalOptions="Start"
+                Color="{StaticResource Primary}" />
             <Border
                 Grid.Row="1"
                 Margin="10"
@@ -103,26 +112,8 @@
                         FontSize="12"
                         Text="{Binding Sincronizados, Mode=TwoWay}"
                         TextColor="Black" />
-
-                    <Label
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Margin="10,0"
-                        FontAttributes="Bold"
-                        FontSize="12"
-                        Text="{Binding Baixados, Mode=TwoWay}"
-                        TextColor="Black" />
                 </Grid>
             </Border>
-            <ActivityIndicator
-                Grid.RowSpan="2"
-                Grid.ColumnSpan="2"
-                HorizontalOptions="Fill"
-                IsEnabled="{Binding IsBusy}"
-                IsRunning="{Binding IsBusy}"
-                IsVisible="{Binding IsBusy}"
-                VerticalOptions="Center"
-                Color="{StaticResource Primary}" />
         </Grid>
     </ScrollView>
 </ContentPage>

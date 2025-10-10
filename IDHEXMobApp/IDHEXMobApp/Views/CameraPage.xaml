@@ -75,7 +75,7 @@
                     Style="{StaticResource ButtonOutline}"
                     Command="{Binding SalvarCommand}"
                     HorizontalOptions="Start"
-                    IsEnabled="False"
+                    IsEnabled="{Binding SaveEnabled}"
                     Text="SALVAR"
                     WidthRequest="120" />
             </Grid>

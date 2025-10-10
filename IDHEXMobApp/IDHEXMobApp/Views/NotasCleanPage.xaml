@@ -23,6 +23,7 @@
             <VerticalStackLayout Padding="10" Spacing="10">
                 <SearchBar
                     x:Name="searchBar"
+                    Keyboard="Numeric"
                     BackgroundColor="#f3f3f3"
                     Placeholder="Digite a nota"
                     PlaceholderColor="DarkGray"

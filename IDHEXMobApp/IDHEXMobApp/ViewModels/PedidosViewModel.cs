@@ -34,55 +34,50 @@ namespace IDHEXMobApp.ViewModels
 
             try
             {
-                //_databaseRepository.Delete(new PedidoResponse());
-                var pedidos = await _pedidoRepository.GetPedidosAsync();               
-                int Total = pedidos.Count();
+                var pedidos = (await _pedidoRepository.GetPedidosAsync()).ToList();
+                int total = pedidos.Count;
 
-                if (Total > 0)
+                if (total > 0)
                 {
+                    // Carregue todos os romaneios já existentes de uma vez
+                    var pedidosDb = _databaseRepository.GetAll().ToList();
+
+                    var romaneiosExistentes = new HashSet<string>(
+                        pedidosDb.Select(p => p.NumRomaneio ?? string.Empty)
+                    );
+
+                    // Filtre apenas os pedidos que ainda não existem no banco local
+                    var novosPedidos = pedidos
+                        .Where(p => !romaneiosExistentes.Contains(p.NumRomaneio ?? string.Empty))
+                        .GroupBy(p => p.NumRomaneio)
+                        .SelectMany(g => g)
+                        .ToList();
+
+                    total = novosPedidos.Count;
+
                     int contador = 0;
-                    //_databaseRepository.Delete(new PedidoResponse());                    
-                    
-                    foreach (var pedido in pedidos)
+
+                    foreach (var item in novosPedidos)
                     {
-                        var existingRomaneio = _databaseRepository.GetPedidosByNumRomaneioAsync(pedido.NumRomaneio!);
-
-                        if (existingRomaneio.Count() > 0)
-                        {
-                            // Pedido já existe, processar proximo
-                            continue;
-                        }
-                        else
-                        {
-                            var itens = pedidos.Where(p => p.NumRomaneio == pedido.NumRomaneio).ToList();
-
-                            foreach (var item in itens)
-                            {
-                                contador++;
-                                await Task.Delay(100);
-                                Sincronizados = $"Sincronizado(s): {contador}/{Total}";
-                                SaveOrderInDatabase(item);
-                            }
-                          
-                            //bool isSyncronized = await _pedidoRepository.AtualizaSincronismoAsync(pedido.PedidoId, pedido.EmpresaId);
-                            //await Shell.Current.DisplayAlert("Erro", "Erro ao sincronizar pedidos.", "OK");
-                            //return;
-                        }
+                        contador++;
+                        Sincronizados = $"Sincronizado(s): {contador}/{total}";
+                        _databaseRepository.Add(item);
+                        await Task.Delay(50); // Pequeno atraso para simular o tempo de processamento
                     }
 
-                    var database = _databaseRepository.GetAll();
-
-                    var resultado = (from p in database.Where(p => p.ImgCanhoto == null)
-                                     group p by new { p.NumRomaneio } into g
-                                     select new RomaneioResponse
-                                     {
-                                         NumRomaneio = g.Key.NumRomaneio,
-                                         TotalNotas = g.Count()                                         
-                                     }).ToList();
+                    // Atualize a lista de romaneios filtrados
+                    var retorno = pedidosDb
+                        .Where(p => p.ImgCanhoto == null)
+                        .GroupBy(p => p.NumRomaneio)
+                        .Select(g => new RomaneioResponse
+                        {
+                            NumRomaneio = g.Key,
+                            TotalNotas = g.Count()
+                        }).ToList();
 
                     RomaneiosFiltrados.Clear();
 
-                    foreach (var item in resultado)
+                    foreach (var item in retorno)
                     {
                         RomaneiosFiltrados.Add(new RomaneioResponse
                         {
@@ -90,16 +85,17 @@ namespace IDHEXMobApp.ViewModels
                             TotalNotas = item.TotalNotas
                         });
                     }
+
+                    OnPropertyChanged(nameof(RomaneiosFiltrados));
                 }
                 else
                 {
                     await CarregaRomaneiosAsync();
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
             }
 
             IsBusy = false;
@@ -137,7 +133,7 @@ namespace IDHEXMobApp.ViewModels
 
         [RelayCommand]
         public async Task GoToNotas()
-        {            
+        {
             await Shell.Current.GoToAsync("//NotasPage");
         }
 

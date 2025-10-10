@@ -7,7 +7,7 @@ public partial class CameraPage : ContentPage
 {
     private CameraViewModel _viewModel;
     public List<TipoOcorrencia> TipoOcorrencias { get; set; }
-       
+    public bool SaveEnabled { get; set; } = false;  
 
     public CameraPage(CameraViewModel viewModel)
 	{
@@ -107,8 +107,8 @@ public partial class CameraPage : ContentPage
                 
                 ImagePreview.Source = ImageSource.FromFile(localFilePath);                
                 var result = File.ReadAllBytes(localFilePath);
-                _viewModel.ImgCanhoto = localFilePath;                
-                SalvarBT.IsEnabled = true;
+                _viewModel.ImgCanhoto = localFilePath;
+                SaveEnabled = _viewModel.ImgCanhoto is not null;
             }
         }
         else

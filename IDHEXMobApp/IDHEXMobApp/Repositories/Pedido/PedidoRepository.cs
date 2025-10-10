@@ -37,14 +37,15 @@ namespace IDHEXMobApp.Repositories
         {
             var data = new Object();
 
-            //string? dtChegadaParam = dtChegada == null ? null : $"?dtChegada={dtChegada}";
+            var url = Constantes.BaseUrl
+                .AppendPathSegment($"/IntegraMAUI/{pedidoId}/{empresaId}/{ocorrenciaId}/{imgCanhoto}");
 
-            string chamada = $"/IntegraMAUI/{pedidoId}/{empresaId}/{ocorrenciaId}/{imgCanhoto}"; //{dtChegadaParam}";
+            if (!string.IsNullOrEmpty(dtChegada))
+                url = url.SetQueryParam("dtChegada", dtChegada);
 
-            var response = await Constantes.BaseUrl
-               .AppendPathSegment(WebUtility.HtmlEncode(chamada))
-               .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
-               .PutJsonAsync(data);
+            var response = await url
+                .WithOAuthBearerToken(Preferences.Get("token", string.Empty))
+                .PutJsonAsync(data);
 
             return response.ResponseMessage.IsSuccessStatusCode;
         }

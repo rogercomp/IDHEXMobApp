@@ -121,11 +121,16 @@ namespace IDHEXMobApp.ViewModels
                         item.ImgCanhoto = $"{objectName}";
                         bool ok = await _pedidoRepository.AtualizaPedidoAsync(item.PedidoId, item.EmpresaId, item.CodOcorrencia!, item.ImgCanhoto!, item.DtImgCanhoto!.Value.ToString("yyyy-MM-dd HH:mm:ss"));
                         if (ok)
-                            _databaseRepository.DeleteById(item.Id);
+                        {
+                            _databaseRepository.DeleteById(item.Id);                            
+                        }
                     }
                 }
 
                 Pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "SIM" && p.Enviado == "NÃO").ToObservableCollection<PedidoResponse>();
+                int Total = Pedidos.Count;
+                Pendentes = $"Pendentes Envio: {Total}";
+
 
                 OnPropertyChanged(nameof(Pedidos));
 

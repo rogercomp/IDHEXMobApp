@@ -20,100 +20,102 @@
 
 
 
-    <ScrollView Orientation="Vertical">        
-            <Grid RowDefinitions="auto,*,auto">
-                <VerticalStackLayout Padding="10" Spacing="0">
-                    <SearchBar
-                        x:Name="searchBar"
-                        BackgroundColor="#f3f3f3"
-                        Keyboard="Numeric"
-                        Placeholder="Digite a nota"
-                        PlaceholderColor="DarkGray"
-                        Text="{Binding FiltroPesquisa, Mode=TwoWay}"
-                        TextChanged="SearchBar_TextChanged"
-                        TextColor="Black" />
+    <ScrollView Orientation="Vertical">
+        <Grid RowDefinitions="auto,*,auto">
+            <VerticalStackLayout Padding="10" Spacing="0">
+                <SearchBar
+                    x:Name="searchBar"
+                    BackgroundColor="#f3f3f3"
+                    Keyboard="Numeric"
+                    Placeholder="Digite a nota"
+                    PlaceholderColor="DarkGray"
+                    Text="{Binding FiltroPesquisa, Mode=TwoWay}"
+                    TextChanged="SearchBar_TextChanged"
+                    TextColor="Black" />
 
-                    <CollectionView
-                        Margin="20"
-                        EmptyView="Nenhum item encontrado"
-                        ItemsSource="{Binding PedidosFiltrados}" >
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                <Border
-                                    Margin="10,5"
-                                    Padding="0"
-                                    Style="{StaticResource CardView}">
-                                    <StackLayout
-                                        Padding="4"
-                                        x:DataType="model:PedidoResponse"
-                                        Orientation="Vertical">
-                                        <Label
-                                            Grid.Row="1"
-                                            Grid.ColumnSpan="3"
-                                            BackgroundColor="LightGray"
-                                            FontAttributes="Bold"
-                                            FontSize="Medium"
-                                            HorizontalOptions="Start"
-                                            HorizontalTextAlignment="Center"
-                                            Text="{Binding Nome}"
-                                            TextColor="Black" />
-                                        <Label
-                                            Grid.Column="2"
-                                            Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}"
-                                            TextColor="Black" />
-                                        <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" TextColor="Black" />
-                                        <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" TextColor="Black" />
-                                        <Label
-                                            Grid.ColumnSpan="2"
-                                            Text="{Binding Endereco, StringFormat='Endereço: {0}'}"
-                                            TextColor="Black" />
-                                        <Label
-                                            Grid.Column="1"
-                                            HorizontalOptions="Start"
-                                            Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}"
-                                            TextColor="Black" />
+                <CollectionView
+                    Margin="20"
+                    EmptyView="Nenhum item encontrado"
+                    ItemsSource="{Binding PedidosFiltrados}"
+                    RemainingItemsThreshold="2"
+                    RemainingItemsThresholdReachedCommand="{Binding CarregarMaisPedidosCommand}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Margin="10,5"
+                                Padding="0"
+                                Style="{StaticResource CardView}">
+                                <StackLayout
+                                    Padding="4"
+                                    x:DataType="model:PedidoResponse"
+                                    Orientation="Vertical">
+                                    <Label
+                                        Grid.Row="1"
+                                        Grid.ColumnSpan="3"
+                                        BackgroundColor="LightGray"
+                                        FontAttributes="Bold"
+                                        FontSize="Medium"
+                                        HorizontalOptions="Start"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{Binding Nome}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Grid.Column="2"
+                                        Text="{Binding NumNotaFiscal, StringFormat='Nota Fiscal: {0}'}"
+                                        TextColor="Black" />
+                                    <Label Text="{Binding NomeTomador, StringFormat='Destinatário: {0}'}" TextColor="Black" />
+                                    <Label Text="{Binding CNPJ, StringFormat='CNPJ: {0}'}" TextColor="Black" />
+                                    <Label
+                                        Grid.ColumnSpan="2"
+                                        Text="{Binding Endereco, StringFormat='Endereço: {0}'}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Grid.Column="1"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding NumRomaneio, StringFormat='Romaneio: {0}'}"
+                                        TextColor="Black" />
 
-                                        <Label
-                                            Grid.Column="1"
-                                            HorizontalOptions="Start"
-                                            Text="{Binding Baixado, StringFormat='Baixada: {0}'}"
-                                            TextColor="Black" />
-                                        <Label
-                                            Grid.Column="2"
-                                            HorizontalOptions="Start"
-                                            Text="{Binding VlrNotaFiscal, StringFormat='Valor: R$ {0:F2}'}"
-                                            TextColor="Red" />
-                                        <Button
-                                            Grid.RowSpan="2"
-                                            Grid.Column="1"
-                                            Padding="0"
-                                            BackgroundColor="Red"
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotaViewModel}}, Path=CameraCommand, x:DataType=viewModels:NotaViewModel}"
-                                            CommandParameter="{Binding .}"
-                                            CornerRadius="27"
-                                            FontSize="{OnPlatform Default=48,
-                                                                  Android=36}"
-                                            HeightRequest="54"
-                                            HorizontalOptions="End"
-                                            Text="+"
-                                            TextColor="WhiteSmoke"
-                                            WidthRequest="54" />
-                                    </StackLayout>
-                                </Border>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </VerticalStackLayout>
-                <ActivityIndicator
-                    Grid.RowSpan="2"
-                    Grid.ColumnSpan="2"
-                    HorizontalOptions="Fill"
-                    IsEnabled="{Binding IsBusy}"
-                    IsRunning="{Binding IsBusy}"
-                    IsVisible="{Binding IsBusy}"
-                    VerticalOptions="Center"
-                    Color="{StaticResource Primary}" />
-            </Grid>    
+                                    <Label
+                                        Grid.Column="1"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding Baixado, StringFormat='Baixada: {0}'}"
+                                        TextColor="Black" />
+                                    <Label
+                                        Grid.Column="2"
+                                        HorizontalOptions="Start"
+                                        Text="{Binding VlrNotaFiscal, StringFormat='Valor: R$ {0:F2}'}"
+                                        TextColor="Red" />
+                                    <Button
+                                        Grid.RowSpan="2"
+                                        Grid.Column="1"
+                                        Padding="0"
+                                        BackgroundColor="Red"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewModels:NotaViewModel}}, Path=CameraCommand, x:DataType=viewModels:NotaViewModel}"
+                                        CommandParameter="{Binding .}"
+                                        CornerRadius="27"
+                                        FontSize="{OnPlatform Default=48,
+                                                              Android=36}"
+                                        HeightRequest="54"
+                                        HorizontalOptions="End"
+                                        Text="+"
+                                        TextColor="WhiteSmoke"
+                                        WidthRequest="54" />
+                                </StackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            <ActivityIndicator
+                HeightRequest="60"
+                HorizontalOptions="Center"
+                IsRunning="{Binding IsBusy}"
+                IsVisible="{Binding IsBusy}"
+                VerticalOptions="Center"
+                WidthRequest="60"
+                ZIndex="10"
+                Color="{StaticResource Primary}" />
+        </Grid>
     </ScrollView>
 
 

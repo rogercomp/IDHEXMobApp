@@ -69,7 +69,7 @@ namespace IDHEXMobApp.Repositories.Services
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"PedidoService Erro: {ex.Message}");
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
             }
 
         }

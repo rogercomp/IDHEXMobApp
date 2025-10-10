@@ -24,7 +24,7 @@ namespace IDHEXMobApp.ViewModels
                     PedidoId = value.PedidoId.ToString();
                     EmpresaId = value.EmpresaId.ToString();
                     NumRomaneio = value.NumRomaneio;
-                    NumNotaFiscal = value.NumNotaFiscal.ToString();                   
+                    NumNotaFiscal = value.NumNotaFiscal.ToString();
                     //DataPrevisaoSaida = value.DataPrevisaoSaida;                    
                     ImgCanhoto = value.ImgCanhoto;
                     //ImgCanhoto = value.ImgCanhoto != null ? ImageSource.FromStream(() => new MemoryStream(Convert.FromBase64String(value.ImgCanhoto))) : null; 
@@ -55,7 +55,7 @@ namespace IDHEXMobApp.ViewModels
         public DateTime? dtImgCanhoto;
 
         [ObservableProperty]
-        string? imgCanhoto;        
+        string? imgCanhoto;
 
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IDatabaseRepository _databaseRepository;
@@ -86,61 +86,71 @@ namespace IDHEXMobApp.ViewModels
         [RelayCommand]
         public async Task SalvarAsync()
         {
-            var pedidoResponse = new PedidoResponse
-                (
-                    Id,
-                    long.Parse(PedidoId),
-                    long.Parse(EmpresaId),
-                    NumRomaneio,
-                    long.Parse(NumNotaFiscal),
-                    DtImgCanhoto,
-                    CodOcorrencia,
-                    ImgCanhoto
-                );
-
-            _databaseRepository.Update(pedidoResponse);
-
-            //if (Conexao.CheckConnectivity())
-            //{
-            //    var appRoot = AppContext.BaseDirectory.Substring(0, AppContext.BaseDirectory.LastIndexOf("\\bin"));
-            //    string jsonPath = appRoot + "\\GoogleCred\\idhexmob-bfc45a0f4340.json";
-
-            //    //string jsonPath = Directory.GetCurrentDirectory() + "GoogleCred/idhexmob-bfc45a0f4340.json";
-            //    var credential = GoogleCredential.FromFile(jsonPath);
-
-            //    var bucketName = "idheximages";
-            //    var objectName = $"{Guid.NewGuid()}.jpg";
-            //    using var storageClient = StorageClient.Create(credential);
-            //    await storageClient.UploadObjectAsync(bucketName, objectName, "image/jpeg", imageStream);
-
-            //    ImgCanhoto = $"{objectName}";
-
-            //    var pedido = _databaseRepository.GetById(long.Parse(PedidoId), long.Parse(EmpresaId), long.Parse(NumNotaFiscal), NumRomaneio);
-            //    bool ok = await _pedidoRepository.AtualizaPedidoAsync(PedidoId, EmpresaId, CodOcorrencia!, ImgCanhoto!);
-            //    if (ok)
-            //        _databaseRepository.DeleteById(pedido.Id);
-            //}
-
-            RomaneioResponse romaneio = new RomaneioResponse
+            try
             {
-                NumRomaneio = NumRomaneio,
-                DataPrevisaoSaida = DateTime.Now
-            };
+                var pedidoResponse = new PedidoResponse
+                    (
+                        Id,
+                        long.Parse(PedidoId),
+                        long.Parse(EmpresaId),
+                        NumRomaneio,
+                        long.Parse(NumNotaFiscal),
+                        DtImgCanhoto,
+                        CodOcorrencia,
+                        ImgCanhoto
+                    );
 
-            var navigationParams = new Dictionary<string, object>
+                _databaseRepository.Update(pedidoResponse);
+
+                RomaneioResponse romaneio = new RomaneioResponse
+                {
+                    NumRomaneio = NumRomaneio,
+                    DataPrevisaoSaida = DateTime.Now
+                };
+
+                var navigationParams = new Dictionary<string, object>
+                {
+                    {"Romaneio", romaneio }
+                };
+                
+                
+                var navigationStack = Shell.Current.Navigation.NavigationStack;
+
+                if (navigationStack.Count >= 2)
+                {
+                    var previousPage = navigationStack[navigationStack.Count - 2];
+                    if (previousPage is NotasCleanPage notasCleanPage)
+                    {
+                        //await Shell.Current.GoToAsync(nameof(NotasCleanPage));
+                        //await Shell.Current.B GoToAsync("//NotasCleanPage");
+                        await Shell.Current.GoToAsync("//PedidosPage");
+                    }
+                    else
+                    {
+                        var pageRemovida = await Shell.Current.Navigation.PopAsync();
+
+                        if (pageRemovida != null)
+                            Shell.Current.Navigation.RemovePage(pageRemovida);
+
+                        await Shell.Current.GoToAsync("//PedidosPage");
+
+                    }
+                }
+                else
+                {
+
+                    var pageRemovida = await Shell.Current.Navigation.PopAsync();
+
+                    if (pageRemovida != null)
+                        Shell.Current.Navigation.RemovePage(pageRemovida);
+
+                    await Shell.Current.GoToAsync("//PedidosPage");
+                }
+            }
+            catch (Exception ex)
             {
-                {"Romaneio", romaneio }
-            };
-
-            //var pageRemovida = await Shell.Current.Navigation.PopAsync();           
-            //remover a página corrente da pilha de navegação
-            //if (pageRemovida != null)
-               // Shell.Current.Navigation.RemovePage(pageRemovida);
-            
-            await Shell.Current.GoToAsync("//PedidosPage");
-
-            //await Shell.Current.Navigation.RemovePage(page);
-
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
+            }
         }
     }
 }
