@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Core.Extensions;
-using IDHEXMobApp.Models.Response;
+﻿using IDHEXMobApp.Models.Response;
 using IDHEXMobApp.Repositories;
 using IDHEXMobApp.Repositories.Database;
 
@@ -10,7 +9,7 @@ namespace IDHEXMobApp.ViewModels
     {
 
         [ObservableProperty]
-        string filtroPesquisa;
+        string? filtroPesquisa;
 
         private readonly IDatabaseRepository _databaseRepository;
         public ObservableCollection<PedidoResponse> Pedidos { get; set; } = new ObservableCollection<PedidoResponse>();
@@ -18,13 +17,18 @@ namespace IDHEXMobApp.ViewModels
         public NotaCleanViewModel(IPedidoRepository pedidoRepository, IDatabaseRepository databaseRepository)
         {
             _databaseRepository = databaseRepository;
+
             //AtualizarFiltroAsync();
         }
-
         internal async Task InitiAsync()
         {
+            //IsBusy = true;
+            //PedidosFiltrados = (ObservableCollection<PedidoResponse>)_databaseRepository.GetAll().Where(p => p.Baixado == "NÃO");
+            //OnPropertyChanged(nameof(PedidosFiltrados));
+            //IsBusy = false;
 
         }
+
 
         [RelayCommand]
         public async Task CameraAsync(PedidoResponse pedido)
@@ -38,23 +42,6 @@ namespace IDHEXMobApp.ViewModels
             };
 
             await Shell.Current.GoToAsync(nameof(CameraPage), navigationParams);
-        }
-
-        public async Task CarregaRomaneiosAsync()
-        {
-            //IsBusy = true;
-
-            //if (NumRomaneio != null)
-            //{
-            //    var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
-            //    PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
-            //}
-
-            //Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
-
-            //IsBusy = false;
-
-            //await Task.CompletedTask;
         }
 
 

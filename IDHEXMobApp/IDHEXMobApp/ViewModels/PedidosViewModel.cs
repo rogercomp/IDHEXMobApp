@@ -65,6 +65,9 @@ namespace IDHEXMobApp.ViewModels
                         await Task.Delay(50); // Pequeno atraso para simular o tempo de processamento
                     }
 
+                    // *** Recarregue o banco local após inserir novos pedidos ***
+                    pedidosDb = _databaseRepository.GetAll().ToList();
+
                     // Atualize a lista de romaneios filtrados
                     var retorno = pedidosDb
                         .Where(p => p.ImgCanhoto == null)
@@ -85,8 +88,6 @@ namespace IDHEXMobApp.ViewModels
                             TotalNotas = item.TotalNotas
                         });
                     }
-
-                    OnPropertyChanged(nameof(RomaneiosFiltrados));
                 }
                 else
                 {
@@ -100,32 +101,6 @@ namespace IDHEXMobApp.ViewModels
 
             IsBusy = false;
         }
-
-        private void SaveOrderInDatabase(PedidoResponse item)
-        {
-            PedidoResponse pedido = new PedidoResponse()
-            {
-                PedidoId = item.PedidoId,
-                EmpresaId = item.EmpresaId,
-                MotoristaId = item.MotoristaId,
-                NumRomaneio = item.NumRomaneio,
-                DataPrevisaoSaida = item.DataPrevisaoSaida,
-                NomeTomador = item.NomeTomador,
-                NumNotaFiscal = item.NumNotaFiscal,
-                VlrNotaFiscal = item.VlrNotaFiscal,
-                Volumes = item.Volumes,
-                Nome = item.Nome,
-                CNPJ = item.CNPJ,
-                Logradouro = item.Logradouro,
-                Bairro = item.Bairro,
-                Cidade = item.Cidade,
-                ImgCanhoto = item.ImgCanhoto,
-                DtImgCanhoto = item.DtImgCanhoto
-            };
-
-            _databaseRepository.Add(pedido);
-        }
-
 
         [RelayCommand]
         public async Task GoToPedidosCleanAsync()

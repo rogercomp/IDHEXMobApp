@@ -8,7 +8,7 @@ namespace IDHEXMobApp.ViewModels
     public partial class NotaViewModel : BaseViewModel
     {
         private int _currentPage = 0;
-        private const int PageSize = 5; // ajuste conforme necessário
+        private const int PageSize = 20; // ajuste conforme necessário
         private List<PedidoResponse> _todosPedidos = new();
         private bool _isLoadingMore = false;
         private bool _hasMoreData = true;
@@ -58,36 +58,44 @@ namespace IDHEXMobApp.ViewModels
         {
             IsBusy = true;
 
-            // Carrega todos os pedidos de uma vez só
-            var todosPedidos = _databaseRepository.GetAll().ToList();
-
-            if (!string.IsNullOrEmpty(NumRomaneio))
+            try
             {
-                // Filtra por romaneio se informado
-                var pedidos = todosPedidos
-                    .Where(p => p.NumRomaneio == NumRomaneio && p.Baixado == "NÃO")
-                    .ToList();
+                // Carrega todos os pedidos de uma vez só
+                var todosPedidos = _databaseRepository.GetAll().ToList();
 
-                PedidosFiltrados.Clear();
-                foreach (var pedido in pedidos)
-                    PedidosFiltrados.Add(pedido);
+                if (!string.IsNullOrEmpty(NumRomaneio))
+                {
+                    // Filtra por romaneio se informado
+                    var pedidos = todosPedidos
+                        .Where(p => p.NumRomaneio == NumRomaneio && p.Baixado == "NÃO")
+                        .ToList();
+
+                    PedidosFiltrados.Clear();
+                    foreach (var pedido in pedidos)
+                        PedidosFiltrados.Add(pedido);
+                }
+                else
+                {
+                    // Se não houver romaneio, mostra todos não baixados
+                    var pedidos = todosPedidos
+                        .Where(p => p.Baixado == "NÃO")
+                        .ToList();
+
+                    PedidosFiltrados.Clear();
+                    foreach (var pedido in pedidos)
+                        PedidosFiltrados.Add(pedido);
+                }
+
+                Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
+
+                OnPropertyChanged(nameof(PedidosFiltrados));
+
             }
-            else
+            catch (Exception ex)
             {
-                // Se não houver romaneio, mostra todos não baixados
-                var pedidos = todosPedidos
-                    .Where(p => p.Baixado == "NÃO")
-                    .ToList();
-
-                PedidosFiltrados.Clear();
-                foreach (var pedido in pedidos)
-                    PedidosFiltrados.Add(pedido);
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
             }
 
-            Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
-
-            OnPropertyChanged(nameof(PedidosFiltrados));
-            
             IsBusy = false;
 
             await Task.CompletedTask;
@@ -115,13 +123,20 @@ namespace IDHEXMobApp.ViewModels
         {
             IsBusy = true;
 
-            if (NumRomaneio != null)
+            try
             {
-                var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
-                PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
-            }
+                if (NumRomaneio != null)
+                {
+                    var pedidos = _databaseRepository.GetPedidosByNumRomaneioAsync(NumRomaneio!).Where(p => p.Baixado == "NÃO");
+                    PedidosFiltrados = pedidos.ToObservableCollection<PedidoResponse>();
+                }
 
-            Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
+                Pedidos = new ObservableCollection<PedidoResponse>(PedidosFiltrados);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
+            }
 
             IsBusy = false;
 
@@ -133,25 +148,34 @@ namespace IDHEXMobApp.ViewModels
 
             IsBusy = true;
 
-            PedidosFiltrados.Clear();
-            var termo = FiltroPesquisa?.ToLower() ?? "";
-
-            var filtrados = string.IsNullOrWhiteSpace(termo)
-                ? Pedidos
-                : Pedidos.Where(x =>
-                    (x.NumNotaFiscal.ToString().Contains(termo))
-                );
-
-            if (filtrados.Any())
+            try
             {
-                foreach (var item in filtrados)
-                    PedidosFiltrados.Add(item);
+
+                PedidosFiltrados.Clear();
+                var termo = FiltroPesquisa?.ToLower() ?? "";
+
+                var filtrados = string.IsNullOrWhiteSpace(termo)
+                    ? Pedidos
+                    : Pedidos.Where(x =>
+                        (x.NumNotaFiscal.ToString().Contains(termo))
+                    );
+
+                if (filtrados.Any())
+                {
+                    foreach (var item in filtrados)
+                        PedidosFiltrados.Add(item);
+                }
+                else
+                {
+                    var pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO" && p.NumNotaFiscal.ToString() == termo).FirstOrDefault();
+                    if (pedidos != null)
+                        PedidosFiltrados.Add(pedidos);
+                }
+
             }
-            else
+            catch (Exception ex)
             {
-                var pedidos = _databaseRepository.GetAll().Where(p => p.Baixado == "NÃO" && p.NumNotaFiscal.ToString() == termo).FirstOrDefault();
-                if (pedidos != null)
-                    PedidosFiltrados.Add(pedidos);
+                Shell.Current.DisplayAlert("Atenção", $"Erro: {ex.Message} ", "OK");
             }
 
             IsBusy = false;

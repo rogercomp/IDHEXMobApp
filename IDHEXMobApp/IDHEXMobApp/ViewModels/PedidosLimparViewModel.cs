@@ -21,6 +21,7 @@ namespace IDHEXMobApp.ViewModels
 
             await Shell.Current.DisplayAlert("Limpeza", "Todos os pedidos foram limpos com sucesso.", "OK");
 
+            var pageRemovida = await Shell.Current.Navigation.PopAsync();
         }
     }
 }

@@ -6,7 +6,7 @@
     xmlns:converters="clr-namespace:IDHEXMobApp.Helpers.Converters"
     xmlns:model="clr-namespace:IDHEXMobApp.Models.Response"
     xmlns:viewModels="clr-namespace:IDHEXMobApp.ViewModels"
-    Title="Notas"
+    Title="Baixa Rápida"
     x:DataType="viewModels:NotaCleanViewModel"
     BackgroundColor="{StaticResource White}"
     NavigationPage.HasNavigationBar="False">
@@ -23,8 +23,8 @@
             <VerticalStackLayout Padding="10" Spacing="10">
                 <SearchBar
                     x:Name="searchBar"
-                    Keyboard="Numeric"
                     BackgroundColor="#f3f3f3"
+                    Keyboard="Numeric"
                     Placeholder="Digite a nota"
                     PlaceholderColor="DarkGray"
                     Text="{Binding FiltroPesquisa, Mode=TwoWay}"
@@ -105,10 +105,10 @@
             <ActivityIndicator
                 Grid.RowSpan="2"
                 Grid.ColumnSpan="2"
+                HorizontalOptions="Fill"
                 IsEnabled="{Binding IsBusy}"
                 IsRunning="{Binding IsBusy}"
                 IsVisible="{Binding IsBusy}"
-                HorizontalOptions="Fill"
                 VerticalOptions="Center"
                 Color="{StaticResource Primary}" />
         </Grid>

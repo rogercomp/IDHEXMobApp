@@ -112,18 +112,48 @@ namespace IDHEXMobApp.ViewModels
                 {
                     {"Romaneio", romaneio }
                 };
-                
-                
+
+
                 var navigationStack = Shell.Current.Navigation.NavigationStack;
+
+                // Procura a NotasCleanPage na pilha
+                var notasCleanPageIndex = navigationStack.ToList().FindIndex(p => p is NotasCleanPage);
+
+                if (notasCleanPageIndex >= 0)
+                {
+                    // Remove todas as páginas
+                    for (int i = navigationStack.Count - 1; i > 0; i--)
+                    {
+                        Shell.Current.Navigation.RemovePage(navigationStack[i]);
+                    }
+
+                    await Shell.Current.GoToAsync(nameof(NotasCleanPage));
+                }
+                else
+                {
+                    var pageRemovida = await Shell.Current.Navigation.PopAsync();
+
+                    if (pageRemovida != null)
+                        Shell.Current.Navigation.RemovePage(pageRemovida);
+
+                    await Shell.Current.GoToAsync("//PedidosPage");
+                }
+
+
+                /*
+
+                    var navigationStack = Shell.Current.Navigation.NavigationStack;
 
                 if (navigationStack.Count >= 2)
                 {
                     var previousPage = navigationStack[navigationStack.Count - 2];
                     if (previousPage is NotasCleanPage notasCleanPage)
                     {
-                        //await Shell.Current.GoToAsync(nameof(NotasCleanPage));
+                        Shell.Current.Navigation.RemovePage(navigationStack[i]);
+
+                        await Shell.Current.GoToAsync(nameof(NotasCleanPage));
                         //await Shell.Current.B GoToAsync("//NotasCleanPage");
-                        await Shell.Current.GoToAsync("//PedidosPage");
+                        //await Shell.Current.GoToAsync("//NotasCleanPage");
                     }
                     else
                     {
@@ -133,7 +163,6 @@ namespace IDHEXMobApp.ViewModels
                             Shell.Current.Navigation.RemovePage(pageRemovida);
 
                         await Shell.Current.GoToAsync("//PedidosPage");
-
                     }
                 }
                 else
@@ -145,7 +174,7 @@ namespace IDHEXMobApp.ViewModels
                         Shell.Current.Navigation.RemovePage(pageRemovida);
 
                     await Shell.Current.GoToAsync("//PedidosPage");
-                }
+                } */
             }
             catch (Exception ex)
             {
